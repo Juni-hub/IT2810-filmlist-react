@@ -18,7 +18,9 @@ const PostSchema = new mongoose.Schema({
     genres: {
         type: [String]
     }
-});
+    },
+    { collection: 'post' }
+);
 
 const Post = mongoose.model('post', PostSchema);
 
