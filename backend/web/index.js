@@ -9,24 +9,26 @@ async function startServer() {
   const apolloServer = new ApolloServer({ 
     typeDefs: typeDefs,
     resolvers: resolvers
-   });
+  });
 
-   await apolloServer.start();
+  await apolloServer.start();
 
-   apolloServer.applyMiddleware({ app: app });
+  apolloServer.applyMiddleware({ app: app });
 
-   app.use((req,res) => {
+  app.use((req,res) => {
     res.send("Hello from express apollo server")
-   });
+  });
 
-   await mongoose.connect("mongodb://admin:password@it2810-34.idi.ntnu.no:27017/admin", {
+  await mongoose.connect("mongodb://admin:password@it2810-34.idi.ntnu.no:27017/admin", {
     useUnifiedTopology: true,
     useNewUrlParser: true,
   });
+  
   console.log("Mongoose connected...")
 
-   app.listen({ port: 4000 }, () => 
-     console.log(`Server is running at http://localhost:4000${apolloServer.graphqlPath}`)
-   );
+  app.listen({ port: 4000 }, () => 
+    console.log(`Server is running at http://localhost:4000${apolloServer.graphqlPath}`)
+  );
 }
+
 startServer()
