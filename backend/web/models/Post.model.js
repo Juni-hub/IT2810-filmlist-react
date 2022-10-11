@@ -1,13 +1,23 @@
 const mongoose = require('mongoose');
 
 const PostSchema = new mongoose.Schema({
+    _id: { 
+        type: String,
+        required: true
+    },
     title: {
         type: String,
         required: true
     },
-    description: {
-        type: String,
+    year: {
+        type: Number
     },
+    cast: {
+        type: [String]
+    },
+    genres: {
+        type: [String]
+    }
 });
 
 const Post = mongoose.model('post', PostSchema);
