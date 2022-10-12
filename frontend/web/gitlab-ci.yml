@@ -3,4 +3,4 @@ build project:
   script:
     - npm install
     - npm test
-    - npm build
+    - npm run build
