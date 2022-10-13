@@ -1,21 +1,33 @@
 import React from 'react';
-import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloProvider, ApolloClient, InMemoryCache, } from '@apollo/client';
+import {relayStylePagination} from "@apollo/client/utilities";
 import Films from './components/Films';
-import Navigation from './components/Navigation';
-import { HashRouter, Route, Routes } from 'react-router-dom';
+import 'antd/dist/antd.css';
+import './App.css';
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql', 
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          films: relayStylePagination(),
+        },
+      },
+    },
+  }),
 })
 
 function App() {
   return (
-  
     <ApolloProvider client={client}>
-      <div className='container'>
-        <Navigation />
-      </div>
+      <Router>
+        <Routes>
+          <Route path="/" element={ <Films /> } />
+        </Routes>
+      </Router>
     </ApolloProvider>
   );
 }

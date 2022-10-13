@@ -1,0 +1,27 @@
+stages:
+  - test
+  - build
+
+workflow:
+    rules:
+        - if: '$CI_PIPELINE_SOURCE == "web"'
+        - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+        - if: '$CI_PIPELINE_SOURCE == "push"'
+
+test project:
+  stage: test
+  image: node
+  before_script: 
+    - cd frontend/web
+  script:
+    - npm install
+    - npm test
+
+build project:
+  stage: build
+  image: node
+  before_script: 
+    - cd frontend/web
+  script:
+    - npm install
+    - npm run build
