@@ -1,22 +1,20 @@
 import { gql, useQuery } from '@apollo/client'
+import Search from 'antd/lib/input/Search';
+import { useState } from 'react';
+import { GET_FILMS } from '../queries/filmQueries';
+import { Film } from '../utils/Interface';
 
-const GET_FILMS = gql`
-    query C {
-        getAllPosts {
-            title
-            year
-            cast
-        }
-    }
-`
-interface Film {
-    title: string,
-    year: string,
-    cast: string,
-}
+const PAGE_SIZE = 10;
 
 export default function Films() {
-    const { loading, error, data } = useQuery(GET_FILMS)
+    const[page, setPage] = useState(0);
+
+    const { loading, error, data } = useQuery(GET_FILMS, {
+        variables: {
+            limit: PAGE_SIZE,
+            offset: page * PAGE_SIZE,
+        },
+    });
 
     if (loading) {
          return (
@@ -29,6 +27,7 @@ export default function Films() {
             </div>
          )
     }
+
     if (error) {
         return (
             <div className='container'>
@@ -38,28 +37,54 @@ export default function Films() {
             </div>
         )
     }
-    
+
+    const onSearch = (value: string) => console.log(value);
+
     return (
-        <div>
-            {!loading && !error && 
-                <table className='table table-hover mt-3'>
+        <>
+        {!loading && !error && 
+            <div className='container m-3'>
+                <Search placeholder="input search text" onSearch={onSearch} style={{ width: 400 }} />
+                <table className='table table-hover mt-3 mb-3'>
                     <thead>
                         <tr>
                             <th>Title</th>
                             <th>Year</th>
-                            <th>cast</th>
+                            <th>Cast</th>
+                            <th>Genres</th>
                         </tr>
                     </thead>
                     <tbody>
                         {data.getAllPosts.map((post: Film) => (
-                            <tr>
+                            <tr key={post._id}>
                                 <td> {post.title} </td>
                                 <td> {post.year} </td>
-                                <td> {post.cast} </td>       
+                                <td> {post.cast.map((el) => el)} </td>  
+                                <td> {post.genres.map((el) => el)} </td>     
                             </tr>
                         ))}
-                    </tbody>
-                </table> }
-        </div>
+                     </tbody>
+                </table> 
+                <div className='text-center'>
+                    <button
+                        className="btn btn-primary m-2"
+                        id="buttonLoadMore"
+                        disabled={loading}
+                        onClick={() => (setPage(prev => prev-1))}
+                    >
+                        Previous
+                    </button>
+                    <button
+                        className="btn btn-primary"
+                        id="buttonLoadMore"
+                        disabled={loading}
+                        onClick={() => (setPage(prev => prev+1))}
+                    >
+                        Next
+                    </button>
+                </div>
+            </div>
+        }
+        </>
     )
 }

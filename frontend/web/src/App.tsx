@@ -6,6 +6,7 @@ import 'antd/dist/antd.css';
 import './App.css';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 
+import FilmItem from './components/FilmItem';
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql', 
@@ -26,6 +27,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={ <Films /> } />
+          <Route path="/:id" element={ <FilmItem /> } />
         </Routes>
       </Router>
     </ApolloProvider>
