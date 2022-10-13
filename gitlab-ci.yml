@@ -5,6 +5,8 @@ stages:
 test project:
   stage: test
   image: node
+  before_script: 
+    - cd frontend/web
   script:
     - npm install
     - npm test
@@ -12,6 +14,8 @@ test project:
 build project:
   stage: build
   image: node
+  before_script: 
+    - cd frontend/web
   script:
     - npm install
     - npm run build
