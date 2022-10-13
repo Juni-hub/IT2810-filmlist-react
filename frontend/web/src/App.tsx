@@ -2,6 +2,7 @@ import React from 'react';
 import { ApolloProvider, ApolloClient, InMemoryCache, } from '@apollo/client';
 import {relayStylePagination} from "@apollo/client/utilities";
 import Films from './components/Films';
+import Navigation from './components/Navigation';
 import 'antd/dist/antd.css';
 import './App.css';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
@@ -28,6 +29,7 @@ function App() {
         <Routes>
           <Route path="/" element={ <Films /> } />
           <Route path="/:id" element={ <FilmItem /> } />
+          <Route path="/" element={ <Navigation /> } />
         </Routes>
       </Router>
     </ApolloProvider>

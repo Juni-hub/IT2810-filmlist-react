@@ -1,13 +1,21 @@
 import { gql, useQuery } from '@apollo/client'
+import { DataArray } from '@mui/icons-material';
 import Search from 'antd/lib/input/Search';
-import { useState } from 'react';
-import { GET_FILMS } from '../queries/filmQueries';
+import { ChangeEvent, SetStateAction, useEffect, useState } from 'react';
+import { GET_FILMS, GET_FILM_ITEM_BY_GENRE, GET_FILM_ITEM } from '../queries/filmQueries';
 import { Film } from '../utils/Interface';
 
 const PAGE_SIZE = 10;
 
+
+
+
 export default function Films() {
     const[page, setPage] = useState(0);
+    const [titles, setTitles] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
+   
+
 
     const { loading, error, data } = useQuery(GET_FILMS, {
         variables: {
@@ -15,6 +23,24 @@ export default function Films() {
             offset: page * PAGE_SIZE,
         },
     });
+
+    const t1: Film = {
+        title: '',
+        _id: '',
+        year: '',
+        cast: [],
+        genres: []
+    }
+
+    useEffect(() => {
+        data.getAllPosts.map((t1: { title: any; }) => (
+            t1.title
+        ).then((response: { data: SetStateAction<never[]>; }) => {
+            setTitles(response.data)
+           // setFilteredData(response.data)
+
+        })
+        )},[]);
 
     if (loading) {
          return (
@@ -26,6 +52,17 @@ export default function Films() {
                 </div>
             </div>
          )
+    }
+
+    const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
+        let value = event.target.value.toLowerCase();
+        let result = [];
+        console.log(value);
+        result = data.getAllPosts.filter((data: { title: string; }) => {
+        return data.title.search(value) != -1;
+        });
+        setTitles(result);
+
     }
 
     if (error) {
@@ -40,11 +77,13 @@ export default function Films() {
 
     const onSearch = (value: string) => console.log(value);
 
+    
+
     return (
         <>
         {!loading && !error && 
             <div className='container m-3'>
-                <Search placeholder="input search text" onSearch={onSearch} style={{ width: 400 }} />
+                <Search placeholder="input search text" onChange = {(event) => handleSearch(event)} onSearch={onSearch} style={{ width: 400 }} />
                 <table className='table table-hover mt-3 mb-3'>
                     <thead>
                         <tr>
