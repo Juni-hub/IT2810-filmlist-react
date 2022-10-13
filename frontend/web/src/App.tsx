@@ -1,22 +1,35 @@
+import React from 'react';
+import { ApolloProvider, ApolloClient, InMemoryCache, } from '@apollo/client';
+import {relayStylePagination} from "@apollo/client/utilities";
+import Films from './components/Films';
+import 'antd/dist/antd.css';
 import './App.css';
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import FilmItem from './components/FilmItem';
+
+const client = new ApolloClient({
+  uri: 'http://localhost:4000/graphql', 
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          films: relayStylePagination(),
+        },
+      },
+    },
+  }),
+})
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ApolloProvider client={client}>
+      <Router>
+        <Routes>
+          <Route path="/" element={ <Films /> } />
+          <Route path="/:id" element={ <FilmItem /> } />
+        </Routes>
+      </Router>
+    </ApolloProvider>
   );
 }
 
