@@ -8,8 +8,8 @@ const resolvers = {
       return data.slice(offset, limit + offset);
     },
 
-    getPost: async (_parent, {id}, _context,_info) => {
-        return await Post.findById(id);
+    getPost: async (_parent, {id}, _context, _info ) => {
+        return await Post.findById(id); 
     },
 
     getPostByGenre: async (_, {genre} ) => {
@@ -19,8 +19,8 @@ const resolvers = {
 
     getPostByTitle: async (_, {title} ) => {
       const data = await Post.find();
-      return data.filter((a) => a.title.includes(name))
-    }
+      return data.filter((a) => a.title.includes(title))
+    },
   }
 };
 

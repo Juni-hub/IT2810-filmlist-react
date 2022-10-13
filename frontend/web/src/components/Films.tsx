@@ -56,7 +56,7 @@ export default function Films() {
                     </thead>
                     <tbody>
                         {data.getAllPosts.map((post: Film) => (
-                            <tr key={data._id}>
+                            <tr key={post._id}>
                                 <td> {post.title} </td>
                                 <td> {post.year} </td>
                                 <td> {post.cast.map((el) => el)} </td>  

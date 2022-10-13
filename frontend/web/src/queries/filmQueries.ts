@@ -13,7 +13,7 @@ export const GET_FILMS = gql`
 `;
 
 export const GET_FILM_ITEM = gql`
-    query GetFilmItem($title: String {
+    query GetFilmItem($title: String) {
         getPost( title: $title) {
             _id
             title
