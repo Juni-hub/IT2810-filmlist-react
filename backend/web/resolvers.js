@@ -3,23 +3,31 @@ const Post = require("./models/Post.model");
 
 const resolvers = {
   Query: {
-    getAllPosts: async (_, { offset, limit } ) => {
-      const data = await Post.find();
+
+    getFilteredPosts: async (_, { offset, limit, titleFilter, genreFilter } ) => {
+      let data = await Post.find();
+      if (titleFilter != "") {
+        data = await Post.find({ title: { $regex: new RegExp(titleFilter, "i") } })
+      } if (genreFilter != "") {
+        data = await Post.find({ genres : { $all : [genreFilter] }})
+      }
+
       return data.slice(offset, limit + offset);
     },
 
-    getPost: async (_parent, {id}, _context, _info ) => {
-        return await Post.findById(id); 
+    getFilteredPostsByGenre: async (_, { offset, limit, filter } ) => {
+      const data = await Post.find({ genres: { $regex: new RegExp(filter, "i") } })
+      return data.slice(offset, limit + offset);
     },
 
-    getPostByGenre: async (_, {genre} ) => {
-      const data = await Post.find();
-      return data.filter((a) => a.genre.includes(genre))
+    getFilteredPostsByYear: async (_, { offset, limit, filter } ) => {
+      const data = await Post.find({ year: filter })
+      return data.slice(offset, limit + offset);
     },
 
-    getPostByTitle: async (_, {title} ) => {
+    getAllPosts: async (_, { offset, limit } ) => {
       const data = await Post.find();
-      return data.filter((a) => a.title.includes(title))
+      return data.slice(offset, limit + offset);
     },
   }
 };
