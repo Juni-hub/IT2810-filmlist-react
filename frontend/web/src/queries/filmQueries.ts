@@ -13,8 +13,8 @@ export const GET_FILMS = gql`
 `;
 
 export const SEARCH_FILMS = gql`
-  query getPosts($limit: Int!, $offset: Int!, $titleFilter: String, $genreFilter: String) {
-    getFilteredPosts(limit: $limit, offset: $offset, titleFilter: $titleFilter, genreFilter: $genreFilter) {
+  query getPosts($limit: Int!, $offset: Int!, $titleFilter: String, $genreFilter: String, $yearFilter: Int) {
+    getFilteredPosts(limit: $limit, offset: $offset, titleFilter: $titleFilter, genreFilter: $genreFilter, yearFilter: $yearFilter) {
         _id
         title
         year

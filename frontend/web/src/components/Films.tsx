@@ -1,10 +1,9 @@
 import { gql, useQuery } from '@apollo/client'
-import { Select } from 'antd';
+import { DatePicker, DatePickerProps, Select } from 'antd';
 import Search from 'antd/lib/input/Search';
 import { useState } from 'react';
 import { SEARCH_FILMS } from '../queries/filmQueries';
 import { Film } from '../utils/Interface';
-import Slider from './Slider';
 
 const PAGE_SIZE = 10;
 
@@ -13,19 +12,33 @@ export default function Films() {
     const [filterInput, setFilterInput] = useState<String>("");
     const [titleFilter, setTitleFilter] = useState<String>("");
     const [genreFilter, setGenreFilter] = useState<String>("")
+    const [yearFilter, setYearFilter] = useState(0)
     const { Option } = Select;
 
     const handleFilterInput = (input: string) => {
         setFilterInput(input);
-    }
+    };
 
     const search = () => {
         setTitleFilter(filterInput);
-    }
+        setGenreFilter("");
+        setYearFilter(0);
+    };
 
-    const handleChange = (value: string) => {
-        setGenreFilter(value)
-    }
+    const changeGenre = (value: string) => {
+        setGenreFilter(value);
+        setTitleFilter("");
+        setYearFilter(0);
+
+    };
+
+    const changeDate: DatePickerProps['onChange'] = (date, dateString) => {
+        console.log(date, Number(dateString))
+        const number = parseInt(dateString, 10)
+        setYearFilter(number)
+        setTitleFilter("");
+        setGenreFilter("");
+    };
 
     const { loading, error, data } = useQuery(SEARCH_FILMS, {
         variables: {
@@ -33,6 +46,7 @@ export default function Films() {
             offset: page * PAGE_SIZE,
             titleFilter: titleFilter,
             genreFilter: genreFilter,
+            yearFilter: yearFilter,
         },
     });
 
@@ -66,7 +80,7 @@ export default function Films() {
             <Search placeholder="input search text" onChange={(e) => handleFilterInput(e.target.value)} onSearch={search} style={{ width: 400 }} />
             <div className='d-flex pt-4'>
                 <div>
-                    <Select defaultValue="" style={{ width: 120 }} onChange={handleChange}>
+                    <Select defaultValue="" style={{ width: 120 }} onChange={changeGenre}>
                         <Option value="Drama">Drama</Option>
                         <Option value="Documentary">Documentary</Option>
                         <Option value="Sports">Sports</Option>
@@ -83,7 +97,7 @@ export default function Films() {
                     </Select>
                 </div>
                 <div className='px-4 d-flex'>
-                    <Slider />
+                    <DatePicker onChange={changeDate} picker="year" />
                 </div>
             </div>
             <table className='table table-hover mt-3 mb-3'>
