@@ -1,25 +1,56 @@
-const { argsToArgsConfig } = require("graphql/type/definition");
 const Post = require("./models/Post.model");
 
 const resolvers = {
   Query: {
-    getAllPosts: async (_, { offset, limit } ) => {
-      const data = await Post.find();
+    getFilteredPosts: async (_, { offset, limit, titleFilter, genreFilter, yearFilter } ) => {
+      //let filters = "";
+      let data = await Post.find();
+
+      if (titleFilter != "") {
+        //filters += "title: { $regex: new RegExp(" + titleFilter + ", 'i' )}"
+        data = await Post.find({ title: { $regex: new RegExp(titleFilter, "i") } });
+      } if (genreFilter != "") {
+        /*
+        if (filters != "") {
+          filters += ", genres: { $all : [genreFilter] }";
+        } else {
+          filters += "genres: { $all : [genreFilter] }";
+        }*/
+        data = await Post.find({ genres : { $all : [genreFilter] }});
+      } if (yearFilter != 0) {
+        /*
+        if (filters != "") {
+          filters += ", year: yearFilter"
+        } else{
+          filters += "year: yearFilter"
+        }*/
+        data = await Post.find({ year: yearFilter });
+      } 
+      /*
+      var json = "{" + filters + "}"
+      console.log(json)
+      if (filters != "") {
+        var json = "{" + filters + "}"
+        var obj = JSON.parse(JSON.stringify(json));
+        console.log(obj)
+        data = await Post.find(obj)
+      } */
       return data.slice(offset, limit + offset);
     },
 
-    getPost: async (_parent, {id}, _context, _info ) => {
-        return await Post.findById(id); 
+    getFilteredPostsByGenre: async (_, { offset, limit, filter } ) => {
+      const data = await Post.find({ genres: { $regex: new RegExp(filter, "i") } })
+      return data.slice(offset, limit + offset);
     },
 
-    getPostByGenre: async (_, {genre} ) => {
-      const data = await Post.find();
-      return data.filter((a) => a.genre.includes(genre))
+    getFilteredPostsByYear: async (_, { offset, limit, filter } ) => {
+      const data = await Post.find({ year: filter })
+      return data.slice(offset, limit + offset);
     },
 
-    getPostByTitle: async (_, {title} ) => {
+    getAllPosts: async (_, { offset, limit } ) => {
       const data = await Post.find();
-      return data.filter((a) => a.title.includes(title))
+      return data.slice(offset, limit + offset);
     },
   }
 };

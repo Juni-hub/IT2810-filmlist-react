@@ -16,13 +16,13 @@ async function startServer() {
 
   apolloServer.applyMiddleware({ app: app });
 
-  app.use((req,res) => {
+  app.use((req, res) => {
     res.send("Hello from express apollo server")
   });
 
   app.use(cors());
-
-  await mongoose.connect("mongodb://admin:password@it2810-34.idi.ntnu.no:27017/admin", {
+  
+  await mongoose.connect("mongodb://admin:password@it2810-34.idi.ntnu.no:27017/admin?directConnection=true", {
     useUnifiedTopology: true,
     useNewUrlParser: true,
   });

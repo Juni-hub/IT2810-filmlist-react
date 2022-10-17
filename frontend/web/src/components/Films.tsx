@@ -1,18 +1,52 @@
 import { gql, useQuery } from '@apollo/client'
+import { DatePicker, DatePickerProps, Select } from 'antd';
 import Search from 'antd/lib/input/Search';
+import moment from 'moment';
 import { useState } from 'react';
-import { GET_FILMS } from '../queries/filmQueries';
+import { SEARCH_FILMS } from '../queries/filmQueries';
 import { Film } from '../utils/Interface';
 
 const PAGE_SIZE = 10;
 
 export default function Films() {
-    const[page, setPage] = useState(0);
+    const [page, setPage] = useState(0);
+    const [filterInput, setFilterInput] = useState<String>("");
+    const [titleFilter, setTitleFilter] = useState<String>("");
+    const [genreFilter, setGenreFilter] = useState<String>("")
+    const [yearFilter, setYearFilter] = useState(0)
+    const { Option } = Select;
 
-    const { loading, error, data } = useQuery(GET_FILMS, {
+    const handleFilterInput = (input: string) => {
+        setFilterInput(input);
+    };
+
+    const changeTitle = () => {
+        setTitleFilter(filterInput);
+        setGenreFilter("");
+        setYearFilter(0);
+    };
+
+    const changeGenre = (value: string) => {
+        setGenreFilter(value);
+        setTitleFilter("");
+        setYearFilter(0);
+    };
+
+    const changeDate: DatePickerProps['onChange'] = (date, dateString) => {
+        console.log(date, Number(dateString))
+        const number = parseInt(dateString, 10)
+        setYearFilter(number)
+        setTitleFilter("");
+        setGenreFilter("");
+    };
+
+    const { loading, error, data } = useQuery(SEARCH_FILMS, {
         variables: {
             limit: PAGE_SIZE,
             offset: page * PAGE_SIZE,
+            titleFilter: titleFilter,
+            genreFilter: genreFilter,
+            yearFilter: yearFilter,
         },
     });
 
@@ -29,6 +63,7 @@ export default function Films() {
     }
 
     if (error) {
+        console.log(error)
         return (
             <div className='container'>
                 <div className='mt-3'>
@@ -38,53 +73,75 @@ export default function Films() {
         )
     }
 
-    const onSearch = (value: string) => console.log(value);
-
     return (
         <>
         {!loading && !error && 
-            <div className='container m-3'>
-                <Search placeholder="input search text" onSearch={onSearch} style={{ width: 400 }} />
-                <table className='table table-hover mt-3 mb-3'>
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Year</th>
-                            <th>Cast</th>
-                            <th>Genres</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data.getAllPosts.map((post: Film) => (
-                            <tr key={post._id}>
-                                <td> {post.title} </td>
-                                <td> {post.year} </td>
-                                <td> {post.cast.map((el) => el)} </td>  
-                                <td> {post.genres.map((el) => el)} </td>     
-                            </tr>
-                        ))}
-                     </tbody>
-                </table> 
-                <div className='text-center'>
-                    <button
-                        className="btn btn-primary m-2"
-                        id="buttonLoadMore"
-                        disabled={loading}
-                        onClick={() => (setPage(prev => prev-1))}
-                    >
-                        Previous
-                    </button>
-                    <button
-                        className="btn btn-primary"
-                        id="buttonLoadMore"
-                        disabled={loading}
-                        onClick={() => (setPage(prev => prev+1))}
-                    >
-                        Next
-                    </button>
+            <div className='container m-3'>    
+            <div className='d-flex pt-4'>
+                <div>
+                    <Search defaultValue={titleFilter !== ""? titleFilter.toString(): undefined} placeholder="input search text" onChange={(e) => handleFilterInput(e.target.value)} onSearch={changeTitle} style={{ width: 400 }} />
+                </div>
+                <div className='px-4'>
+                    <Select defaultValue={genreFilter !== ""? genreFilter.toString(): undefined} style={{ width: 200 }} onChange={changeGenre}>
+                        <Option value="Drama">Drama</Option>
+                        <Option value="Documentary">Documentary</Option>
+                        <Option value="Sports">Sports</Option>
+                        <Option value="Silent">Silent</Option>
+                        <Option value="Adventure">Adventure</Option>
+                        <Option value="Western">Western</Option>
+                        <Option value="Romance">Romance</Option>
+                        <Option value="War">War</Option>
+                        <Option value="Comedy">Comedy</Option>
+                        <Option value="Horror">Horror</Option>
+                        <Option value="Historical">Historical</Option>
+                        <Option value="Animated">Animated</Option>
+                        <Option value="ShortDocumentary">ShortDocumentary</Option>
+                    </Select>
+                </div>
+                <div>
+                    <DatePicker defaultValue={(yearFilter !== 0)? moment(yearFilter.toString()) : undefined} style={{ width: 200 }} onChange={changeDate} picker="year" />
                 </div>
             </div>
-        }
-        </>
+            <table className='table table-hover mt-3 mb-3 pt-2'>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Year</th>
+                        <th>Cast</th>
+                        <th>Genres</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {data.getFilteredPosts?.map((post: Film) => (
+                        <tr key={post._id}>
+                            <td> {post.title} </td>
+                            <td> {post.year} </td>
+                            <td> {post.cast.map((el) => el + ", ")} </td>  
+                            <td> {post.genres.map((el) => el + ", ")} </td>     
+                        </tr>
+                    ))}
+                </tbody>
+            </table> 
+            <div className='mt-2'>
+                <button
+                    className="btn btn-primary m-2"
+                    id="buttonLoadMore"
+                    disabled={loading}
+                    onClick={() => (setPage(prev => prev-1))}
+                >
+                    Previous
+                </button>
+                <button
+                    className="btn btn-primary"
+                    id="buttonLoadMore"
+                    disabled={loading}
+                    onClick={() => (setPage(prev => prev+1))}
+                >
+                    Next
+                </button>
+            </div>
+        </div>
+    }
+    </>
     )
 }
