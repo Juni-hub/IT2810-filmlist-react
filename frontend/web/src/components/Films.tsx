@@ -1,6 +1,7 @@
 import { gql, useQuery } from '@apollo/client'
 import { DatePicker, DatePickerProps, Select } from 'antd';
 import Search from 'antd/lib/input/Search';
+import moment from 'moment';
 import { useState } from 'react';
 import { SEARCH_FILMS } from '../queries/filmQueries';
 import { Film } from '../utils/Interface';
@@ -19,7 +20,7 @@ export default function Films() {
         setFilterInput(input);
     };
 
-    const search = () => {
+    const changeTitle = () => {
         setTitleFilter(filterInput);
         setGenreFilter("");
         setYearFilter(0);
@@ -29,7 +30,6 @@ export default function Films() {
         setGenreFilter(value);
         setTitleFilter("");
         setYearFilter(0);
-
     };
 
     const changeDate: DatePickerProps['onChange'] = (date, dateString) => {
@@ -77,10 +77,12 @@ export default function Films() {
         <>
         {!loading && !error && 
             <div className='container m-3'>    
-            <Search placeholder="input search text" onChange={(e) => handleFilterInput(e.target.value)} onSearch={search} style={{ width: 400 }} />
             <div className='d-flex pt-4'>
                 <div>
-                    <Select defaultValue="" style={{ width: 120 }} onChange={changeGenre}>
+                    <Search defaultValue={titleFilter !== ""? titleFilter.toString(): undefined} placeholder="input search text" onChange={(e) => handleFilterInput(e.target.value)} onSearch={changeTitle} style={{ width: 400 }} />
+                </div>
+                <div className='px-4'>
+                    <Select defaultValue={genreFilter !== ""? genreFilter.toString(): undefined} style={{ width: 200 }} onChange={changeGenre}>
                         <Option value="Drama">Drama</Option>
                         <Option value="Documentary">Documentary</Option>
                         <Option value="Sports">Sports</Option>
@@ -96,11 +98,11 @@ export default function Films() {
                         <Option value="ShortDocumentary">ShortDocumentary</Option>
                     </Select>
                 </div>
-                <div className='px-4 d-flex'>
-                    <DatePicker onChange={changeDate} picker="year" />
+                <div>
+                    <DatePicker defaultValue={(yearFilter !== 0)? moment(yearFilter.toString()) : undefined} style={{ width: 200 }} onChange={changeDate} picker="year" />
                 </div>
             </div>
-            <table className='table table-hover mt-3 mb-3'>
+            <table className='table table-hover mt-3 mb-3 pt-2'>
                 <thead>
                     <tr>
                         <th>Title</th>
@@ -120,7 +122,7 @@ export default function Films() {
                     ))}
                 </tbody>
             </table> 
-            <div className='text-center'>
+            <div className='mt-2'>
                 <button
                     className="btn btn-primary m-2"
                     id="buttonLoadMore"
