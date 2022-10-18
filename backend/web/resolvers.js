@@ -1,4 +1,5 @@
 const Post = require("./models/Post.model");
+const mongoose = require('mongoose');
 
 const resolvers = {
   Query: {
@@ -38,20 +39,28 @@ const resolvers = {
       return data.slice(offset, limit + offset);
     },
 
-    getFilteredPostsByGenre: async (_, { offset, limit, filter } ) => {
-      const data = await Post.find({ genres: { $regex: new RegExp(filter, "i") } })
-      return data.slice(offset, limit + offset);
-    },
-
-    getFilteredPostsByYear: async (_, { offset, limit, filter } ) => {
-      const data = await Post.find({ year: filter })
-      return data.slice(offset, limit + offset);
-    },
-
     getAllPosts: async (_, { offset, limit } ) => {
       const data = await Post.find();
       return data.slice(offset, limit + offset);
     },
+
+    getPost: async (_, { id } ) => {
+      const data = await Post.findById(id);
+      return data;
+    },
+  }, 
+  Mutation: {
+    createPost: async (_, { title, year, cast, genres } ) => {
+      const newPost = await new Post({
+        _id: new mongoose.Types.ObjectId().toHexString(),
+        title: title,
+        year: year, 
+        cast: cast, 
+        genres: genres,
+      })
+
+      return newPost.save().catch(err => err);
+    }
   }
 };
 

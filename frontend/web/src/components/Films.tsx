@@ -1,20 +1,158 @@
-import { gql, useQuery } from '@apollo/client'
-import { DatePicker, DatePickerProps, Select } from 'antd';
+import { gql, useMutation, useQuery } from '@apollo/client'
+import { Button, DatePicker, DatePickerProps, Form, Input, Modal, Select } from 'antd';
 import Search from 'antd/lib/input/Search';
 import moment from 'moment';
 import { useState } from 'react';
-import { SEARCH_FILMS } from '../queries/filmQueries';
+import { SEARCH_FILMS, ADD_FILM } from '../queries/filmQueries';
 import { Film } from '../utils/Interface';
 
-const PAGE_SIZE = 10;
+interface Values {
+    title: string;
+    description: string;
+    modifier: string;
+}
+  
+interface CollectionCreateFormProps {
+    open: boolean;
+    onCreate: (values: Values) => void;
+    onCancel: () => void;
+}
+
+const PAGE_SIZE = 15;
+const { Option } = Select;
+
+const optionItems = ["Drama", "Documentary", "Sports", "Silent", "Adventure", "Western", "Romance", "War", "Comedy", "Horror", "Historical", "Animated"]
+const optionList: React.ReactNode[] = [];
+
+optionItems.forEach((e) => {
+    optionList.push(<Option key={e}>{e}</Option>);
+})
+
+const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
+    open,
+    onCreate,
+    onCancel,
+  }) => {
+    const [form] = Form.useForm();
+
+    return (
+      <Modal
+        open={open}
+        title="Insert a new film"
+        okText="Create"
+        cancelText="Cancel"
+        onCancel={onCancel}
+        onOk={() => {
+            form
+            .validateFields()
+            .then(values => {
+                form.resetFields();
+                onCreate(values);
+            })
+            .catch(info => {
+              console.log('Validate Failed:', info);
+            });
+        }}
+      >
+        <Form
+          form={form}
+          layout="vertical"
+          name="form_in_modal"
+          initialValues={{ modifier: 'public' }}
+        >
+            <Form.Item
+            name="title"
+            label="Title"
+            rules={[{ required: true, message: 'Please input the title of the film!' }]}
+            >
+                <Input />
+            </Form.Item>
+
+            <Form.Item
+            name="year"
+            label="Year"
+            >
+                <Input />
+            </Form.Item>
+
+            <Form.Item
+            name="cast"
+            label="Cast"
+            >
+                <Input />
+            </Form.Item>
+
+            <Form.Item
+            name="genres"
+            label="Genres"
+            >
+            <Select>
+                {optionList}
+            </Select>
+            </Form.Item>
+        </Form>
+      </Modal>
+    );
+  };
 
 export default function Films() {
     const [page, setPage] = useState(0);
     const [filterInput, setFilterInput] = useState<String>("");
     const [titleFilter, setTitleFilter] = useState<String>("");
-    const [genreFilter, setGenreFilter] = useState<String>("")
-    const [yearFilter, setYearFilter] = useState(0)
-    const { Option } = Select;
+    const [genreFilter, setGenreFilter] = useState<String>("");
+    const [yearFilter, setYearFilter] = useState(0);
+    const [open, setOpen] = useState(false);
+
+    const [createPost] = useMutation(ADD_FILM);
+    const { loading, error, data } = useQuery(SEARCH_FILMS, {
+        variables: {
+            limit: PAGE_SIZE,
+            offset: page * PAGE_SIZE,
+            titleFilter: titleFilter,
+            genreFilter: genreFilter,
+            yearFilter: yearFilter,
+        },
+    });
+
+    if (loading) {
+        return (
+            <div className='container'>
+                <div className='d-flex justify-content-center mt-3'>
+                    <div className='spinner-border' role='status'>
+                        <span className='sr-only'></span>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+   if (error) {
+        console.log(error)
+        return (
+            <div className='container'>
+                <div className='mt-3'>
+                    <p>Something went wrong...</p>
+                </div>
+            </div>
+        )
+    }
+    
+    const onCreate = (values: any) => {
+        setYearFilter(0);
+        setGenreFilter("");
+        setTitleFilter("");
+
+        createPost({
+            variables: {
+                title: values.title,
+                year: values.year? parseInt(values.year, 10) : null,
+                cast: values.cast? values.cast.split(",") : null,
+                genres: values.genres? [values.genres]: null,
+            }
+        });
+        setTitleFilter(values.title);
+        setOpen(false);
+    };
 
     const handleFilterInput = (input: string) => {
         setFilterInput(input);
@@ -33,115 +171,85 @@ export default function Films() {
     };
 
     const changeDate: DatePickerProps['onChange'] = (date, dateString) => {
-        console.log(date, Number(dateString))
-        const number = parseInt(dateString, 10)
-        setYearFilter(number)
+        setYearFilter(parseInt(dateString, 10))
         setTitleFilter("");
         setGenreFilter("");
     };
-
-    const { loading, error, data } = useQuery(SEARCH_FILMS, {
-        variables: {
-            limit: PAGE_SIZE,
-            offset: page * PAGE_SIZE,
-            titleFilter: titleFilter,
-            genreFilter: genreFilter,
-            yearFilter: yearFilter,
-        },
-    });
-
-    if (loading) {
-         return (
-            <div className='container'>
-                <div className='d-flex justify-content-center mt-3'>
-                    <div className='spinner-border' role='status'>
-                        <span className='sr-only'></span>
-                    </div>
-                </div>
-            </div>
-         )
-    }
-
-    if (error) {
-        console.log(error)
-        return (
-            <div className='container'>
-                <div className='mt-3'>
-                    <p>Something went wrong...</p>
-                </div>
-            </div>
-        )
-    }
 
     return (
         <>
         {!loading && !error && 
             <div className='container m-3'>    
-            <div className='d-flex pt-4'>
-                <div>
-                    <Search defaultValue={titleFilter !== ""? titleFilter.toString(): undefined} placeholder="input search text" onChange={(e) => handleFilterInput(e.target.value)} onSearch={changeTitle} style={{ width: 400 }} />
+                <div className='d-flex pt-4'>
+                    <div className='px-2'>
+                        <Search defaultValue={titleFilter !== ""? titleFilter.toString(): undefined} placeholder="input search text" onChange={(e) => handleFilterInput(e.target.value)} onSearch={changeTitle} style={{ width: 400 }} />
+                    </div>
+                    <div className='px-2'>
+                        <Select defaultValue={genreFilter !== ""? genreFilter.toString(): undefined} style={{ width: 200 }} onChange={changeGenre}>
+                            {optionList}
+                        </Select>
+                    </div>
+                    <div className='px-2'>
+                        <DatePicker defaultValue={(yearFilter !== 0)? moment(yearFilter.toString()) : undefined} style={{ width: 200 }} onChange={changeDate} picker="year" />
+                    </div>
+                    <div className='px-2'>
+                        <Button
+                            type="primary"
+                            onClick={() => {
+                                setOpen(true);
+                            }}
+                        >
+                            New Film
+                        </Button>
+                        <CollectionCreateForm
+                            open={open}
+                            onCreate={onCreate}
+                            onCancel={() => {
+                                setOpen(false);
+                            }}
+                        /> 
+                    </div>
                 </div>
-                <div className='px-4'>
-                    <Select defaultValue={genreFilter !== ""? genreFilter.toString(): undefined} style={{ width: 200 }} onChange={changeGenre}>
-                        <Option value="Drama">Drama</Option>
-                        <Option value="Documentary">Documentary</Option>
-                        <Option value="Sports">Sports</Option>
-                        <Option value="Silent">Silent</Option>
-                        <Option value="Adventure">Adventure</Option>
-                        <Option value="Western">Western</Option>
-                        <Option value="Romance">Romance</Option>
-                        <Option value="War">War</Option>
-                        <Option value="Comedy">Comedy</Option>
-                        <Option value="Horror">Horror</Option>
-                        <Option value="Historical">Historical</Option>
-                        <Option value="Animated">Animated</Option>
-                        <Option value="ShortDocumentary">ShortDocumentary</Option>
-                    </Select>
-                </div>
-                <div>
-                    <DatePicker defaultValue={(yearFilter !== 0)? moment(yearFilter.toString()) : undefined} style={{ width: 200 }} onChange={changeDate} picker="year" />
-                </div>
-            </div>
-            <table className='table table-hover mt-3 mb-3 pt-2'>
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Year</th>
-                        <th>Cast</th>
-                        <th>Genres</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {data.getFilteredPosts?.map((post: Film) => (
-                        <tr key={post._id}>
-                            <td> {post.title} </td>
-                            <td> {post.year} </td>
-                            <td> {post.cast.map((el) => el + ", ")} </td>  
-                            <td> {post.genres.map((el) => el + ", ")} </td>     
+                <table className='table table-hover mt-3 mb-3 pt-2'>
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Year</th>
+                            <th>Cast</th>
+                            <th>Genres</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table> 
-            <div className='mt-2'>
-                <button
-                    className="btn btn-primary m-2"
-                    id="buttonLoadMore"
-                    disabled={loading}
-                    onClick={() => (setPage(prev => prev-1))}
-                >
-                    Previous
-                </button>
-                <button
-                    className="btn btn-primary"
-                    id="buttonLoadMore"
-                    disabled={loading}
-                    onClick={() => (setPage(prev => prev+1))}
-                >
-                    Next
-                </button>
+                    </thead>
+                    <tbody>
+                        {data.getFilteredPosts?.map((post: Film) => (
+                            <tr key={post._id}>
+                                <td> {post.title} </td>
+                                <td> {post.year? post.year: ""} </td>
+                                <td> {post.cast? post.cast.map((el) => el + ", "): ""} </td>  
+                                <td> {post.genres? post.genres.map((el) => el + ", "): ""} </td>     
+                            </tr>
+                        ))}
+                    </tbody>
+                </table> 
+                <div className='mt-2'>
+                    <button
+                        className="btn btn-primary m-2"
+                        id="buttonLoadMore"
+                        disabled={loading}
+                        onClick={() => (setPage(prev => prev-1))}
+                    >
+                        Previous
+                    </button>
+                    <button
+                        className="btn btn-primary"
+                        id="buttonLoadMore"
+                        disabled={loading}
+                        onClick={() => (setPage(prev => prev+1))}
+                    >
+                        Next
+                    </button>
+                </div>
             </div>
-        </div>
-    }
-    </>
+        }
+        </>
     )
 }

@@ -21,8 +21,7 @@ export const SEARCH_FILMS = gql`
         cast
         genres
     }
-  }
-
+  },
 `;
 
 export const SEARCH_FILMS_YEAS = gql`
@@ -36,3 +35,15 @@ export const SEARCH_FILMS_YEAS = gql`
     }
   }
 `;
+
+export const ADD_FILM = gql`
+  mutation createPost($title: String!, $year: Int, $cast: [String], $genres: [String]) {
+    createPost(title: $title, year: $year, cast: $cast, genres: $genres) {
+      _id
+      title
+      year
+      cast
+      genres
+    }
+  }
+`
