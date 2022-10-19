@@ -1,10 +1,14 @@
 import { useMutation, useQuery } from '@apollo/client'
-import { Button, DatePicker, DatePickerProps, Select, Col, Card, Row } from 'antd';
+import { Button, DatePicker, Select, Col, Card, Row } from 'antd';
+import { ADD_FILM, SEARCH_FILMS } from '../queries/filmQueries';
+import { setGenre, setTitle, setYear } from '../redux/actions';
+import {useDispatch, useSelector} from "react-redux";
+
 import Search from 'antd/lib/input/Search';
+import {Store} from "../redux/store";
 import moment from 'moment';
 import { useState } from 'react';
 import { optionList } from '../helpers/helpers';
-import { SEARCH_FILMS, ADD_FILM } from '../queries/filmQueries';
 import { Film } from '../utils/Interface';
 import { CollectionCreateForm } from './AddFilm';
 import { ShowFilmItem } from './FilmItem';
@@ -13,10 +17,10 @@ const PAGE_SIZE = 15;
 
 export default function Films() {
     const [page, setPage] = useState(0);
-    const [filterInput, setFilterInput] = useState<String>("");
-    const [titleFilter, setTitleFilter] = useState<String>("");
-    const [genreFilter, setGenreFilter] = useState<String>("");
-    const [yearFilter, setYearFilter] = useState(0);
+    //const [filterInput, setFilterInput] = useState<String>("");
+    //const [titleFilter, setTitleFilter] = useState<String>("");
+    //const [genreFilter, setGenreFilter] = useState<String>("");
+    //const [yearFilter, setYearFilter] = useState(0);
     const [openCreate, setOpenCreate] = useState(false);
     const [currentPost, setCurrentPost] = useState<Film>({
         _id: "",
@@ -31,6 +35,12 @@ export default function Films() {
     const handleCancel = () => {
       setIsModalOpen(false);
     };
+    const title = useSelector ((state: Store) => state.title);
+    const genre = useSelector ((state: Store) => state.genre);
+    const year = useSelector ((state: Store) => state.year);
+
+    const dispatch = useDispatch();
+    //const [open, setOpen] = useState(false);
 
     const [createPost] = useMutation(ADD_FILM);
     
@@ -38,9 +48,9 @@ export default function Films() {
         variables: {
             limit: PAGE_SIZE,
             offset: page * PAGE_SIZE,
-            titleFilter: titleFilter,
-            genreFilter: genreFilter,
-            yearFilter: yearFilter,
+            titleFilter: title,
+            genreFilter: genre,
+            yearFilter: parseInt(year,10),
         },
     });
 
@@ -72,10 +82,6 @@ export default function Films() {
     }
     
     const onCreate = (values: any) => {
-        setYearFilter(0);
-        setGenreFilter("");
-        setTitleFilter("");
-
         createPost({
             variables: {
                 title: values.title,
@@ -84,10 +90,10 @@ export default function Films() {
                 genres: values.genres? [values.genres]: null,
             }
         });
-        setTitleFilter(values.title);
+        //setTitleFilter(values.title);
         setOpenCreate(false);
     };
-
+/*
     const handleFilterInput = (input: string) => {
         setFilterInput(input);
     };
@@ -109,13 +115,12 @@ export default function Films() {
         setTitleFilter("");
         setGenreFilter("");
     };
+*/
 
     function handleClick(post: Film) {
-        console.log(post.title)
         setCurrentPost(post);
         setIsModalOpen(true);
     }
-
     let body: any = [];
     body.push (
         data.getFilteredPosts?.map((post: Film) => (
@@ -133,15 +138,15 @@ export default function Films() {
             <div className='container m-3 pb-3'>    
                 <div className='d-flex pt-2' style={{justifyContent: "center"}}>
                     <div className='px-2'>
-                            <Search defaultValue={titleFilter !== ""? titleFilter.toString(): undefined} placeholder="Search for title" onChange={(e) => handleFilterInput(e.target.value)} onSearch={changeTitle} style={{ width: 400 }} />
+                            <Search defaultValue={title} placeholder="Search for title" onSearch={(e) => dispatch(setTitle(e))} style={{ width: 400 }} />
                         </div>
                         <div className='px-2'>
-                            <Select defaultValue={genreFilter !== ""? genreFilter.toString(): undefined} style={{ width: 200 }} placeholder="Choose a genre" onChange={changeGenre}>
+                            <Select defaultValue={genre} style={{ width: 200 }} placeholder="Choose a genre" onChange={(e) => dispatch(setGenre(e))}>
                                 {optionList}
                             </Select>
                         </div>
                         <div className='px-2'>
-                            <DatePicker disabledDate={disabledYear} defaultValue={(yearFilter !== 0)? moment(yearFilter.toString()) : undefined} style={{ width: 200 }} placeholder="Choose a year" onChange={changeDate} picker="year" />
+                            <DatePicker disabledDate={disabledYear} defaultValue={(parseInt(year,10) !== 0)? moment(year) : undefined} style={{ width: 200 }} placeholder="Choose a year" onChange={(date,dateString) => {dateString === ""? dispatch(setYear("0")) : dispatch(setYear(dateString)) }} picker="year" />
                         </div>
                         <div className='px-2'>
                             <Button
@@ -196,4 +201,47 @@ export default function Films() {
             }
         </>
     )
-}
+};
+
+/*
+ return (
+        <>
+        {!loading && !error && 
+            <div className='container m-3'>    
+                <div className='d-flex pt-4'>
+                    <div className='px-2'>
+                        <Search  placeholder="Title" defaultValue={title} onSearch={(e) => dispatch(setTitle(e))} style={{ width: 400 }} />
+                    </div>
+                    <div className='px-2'>
+                        <Select value = {genre} style={{ width: 200 }} onChange={(e) => dispatch(setGenre(e))}>
+                            {optionList}
+                        </Select>
+                    </div>
+                    <div className='px-2'>
+                        <DatePicker defaultValue={(parseInt(year,10) !== 0)? moment(year) : undefined} style={{ width: 200 }} onChange={(date,dateString) => {dateString === ""? dispatch(setYear("0")) : dispatch(setYear(dateString)) }} picker="year" />
+                    </div>
+
+                    <div className='mt-2 mb-2' style={{textAlign: "center"}}>
+                        <Button
+                            type='primary'
+                            className="m-2"
+                            id="buttonLoadMore"
+                            disabled={loading}
+                            onClick={() => (setPage(prev => prev-1))}
+                        >
+                            Previous
+                        </Button>
+                        <Button
+                            type='primary'
+                            id="buttonLoadMore"
+                            disabled={loading}
+                            onClick={() => (setPage(prev => prev+1))}
+                        >
+                            Next
+                        </Button>
+                    </div>
+                </div>
+            }
+        </>
+    )
+}*/

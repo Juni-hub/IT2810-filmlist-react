@@ -23,5 +23,5 @@ build project:
   before_script: 
     - cd frontend/web
   script:
-    - npm install
+    - npm ci
     - npm run build
