@@ -1,22 +1,11 @@
-import { gql, useMutation, useQuery } from '@apollo/client'
-import { Button, DatePicker, DatePickerProps, Form, Input, Modal, Select } from 'antd';
+import { useMutation, useQuery } from '@apollo/client'
+import { Button, DatePicker, DatePickerProps, Select } from 'antd';
 import Search from 'antd/lib/input/Search';
 import moment from 'moment';
 import { useState } from 'react';
 import { SEARCH_FILMS, ADD_FILM } from '../queries/filmQueries';
 import { Film } from '../utils/Interface';
-
-interface Values {
-    title: string;
-    description: string;
-    modifier: string;
-}
-  
-interface CollectionCreateFormProps {
-    open: boolean;
-    onCreate: (values: Values) => void;
-    onCancel: () => void;
-}
+import { CollectionCreateForm } from './AddFilm';
 
 const PAGE_SIZE = 15;
 const { Option } = Select;
@@ -27,73 +16,6 @@ const optionList: React.ReactNode[] = [];
 optionItems.forEach((e) => {
     optionList.push(<Option key={e}>{e}</Option>);
 })
-
-const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
-    open,
-    onCreate,
-    onCancel,
-  }) => {
-    const [form] = Form.useForm();
-
-    return (
-      <Modal
-        open={open}
-        title="Insert a new film"
-        okText="Create"
-        cancelText="Cancel"
-        onCancel={onCancel}
-        onOk={() => {
-            form
-            .validateFields()
-            .then(values => {
-                form.resetFields();
-                onCreate(values);
-            })
-            .catch(info => {
-              console.log('Validate Failed:', info);
-            });
-        }}
-      >
-        <Form
-          form={form}
-          layout="vertical"
-          name="form_in_modal"
-          initialValues={{ modifier: 'public' }}
-        >
-            <Form.Item
-            name="title"
-            label="Title"
-            rules={[{ required: true, message: 'Please input the title of the film!' }]}
-            >
-                <Input />
-            </Form.Item>
-
-            <Form.Item
-            name="year"
-            label="Year"
-            >
-                <Input />
-            </Form.Item>
-
-            <Form.Item
-            name="cast"
-            label="Cast"
-            >
-                <Input />
-            </Form.Item>
-
-            <Form.Item
-            name="genres"
-            label="Genres"
-            >
-            <Select>
-                {optionList}
-            </Select>
-            </Form.Item>
-        </Form>
-      </Modal>
-    );
-  };
 
 export default function Films() {
     const [page, setPage] = useState(0);
