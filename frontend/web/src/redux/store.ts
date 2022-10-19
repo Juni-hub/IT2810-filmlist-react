@@ -8,7 +8,6 @@ export interface Store {
     year: string;
 }
 
-
 // Redux implementation
 function storeReducer(state: Store = {
     title: "",

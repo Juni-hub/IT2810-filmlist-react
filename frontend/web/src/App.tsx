@@ -29,8 +29,8 @@ function App() {
         <Router>
           <PageHeader
             className="site-page-header m-4"
-            title="Film database"
-            subTitle="This database shows films from 1900-2000"
+            title="The film database"
+            subTitle="The database that shows a selection of films from 1900-2018"
           />
           <Routes>
             <Route path="/" element={ <Films /> } />
