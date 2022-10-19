@@ -1,9 +1,3 @@
-import {
-    ActionTypes,
-    SET_GENRE,
-    SET_TITLE,
-    SET_YEAR
-} from "./actions";
 import {applyMiddleware, createStore} from "redux";
 
 import thunk from "redux-thunk";
