@@ -1,8 +1,8 @@
 import { ADD_FILM, SEARCH_FILMS } from '../queries/filmQueries';
-import { Button, DatePicker, DatePickerProps, Form, Input, Modal, Select } from 'antd';
-import { gql, useMutation, useQuery } from '@apollo/client'
+import { Button, DatePicker, Form, Input, Modal, Select } from 'antd';
 import { setGenre, setTitle, setYear } from '../redux/actions';
 import {useDispatch, useSelector} from "react-redux";
+import { useMutation, useQuery } from '@apollo/client'
 
 import { Film } from '../utils/Interface';
 import Search from 'antd/lib/input/Search';
@@ -167,7 +167,7 @@ export default function Films() {
                         </Select>
                     </div>
                     <div className='px-2'>
-                        <DatePicker defaultValue={(parseInt(year,10) !== 0)? moment(year) : undefined} style={{ width: 200 }} onChange={(date,dateString) => {dateString == ""? dispatch(setYear("0")) : dispatch(setYear(dateString)) }} picker="year" />
+                        <DatePicker defaultValue={(parseInt(year,10) !== 0)? moment(year) : undefined} style={{ width: 200 }} onChange={(date,dateString) => {dateString === ""? dispatch(setYear("0")) : dispatch(setYear(dateString)) }} picker="year" />
                     </div>
                     <div className='px-2'>
                         <Button
