@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client'
-import { Button, DatePicker, DatePickerProps, Select } from 'antd';
+import { WrapText } from '@mui/icons-material';
+import { Button, DatePicker, DatePickerProps, Select, Col, Card, Row, Space } from 'antd';
 import Search from 'antd/lib/input/Search';
 import moment from 'moment';
 import { useState } from 'react';
@@ -98,6 +99,18 @@ export default function Films() {
         setGenreFilter("");
     };
 
+    let body: any = [];
+
+    body.push (
+        data.getFilteredPosts?.map((post: Film) => (
+            <Col xs={24} md={6} className="my-4 mx-2">
+                <Card title={post.title} style={{textAlign: "center"}} >
+                    <p style={{textAlign: "center"}}> {post.year? post.year: ""} </p>
+                </Card>
+            </Col>
+        ))
+    )
+
     return (
         <>
         {!loading && !error && 
@@ -132,26 +145,15 @@ export default function Films() {
                         /> 
                     </div>
                 </div>
-                <table className='table table-hover mt-3 mb-3 pt-2'>
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Year</th>
-                            <th>Cast</th>
-                            <th>Genres</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data.getFilteredPosts?.map((post: Film) => (
-                            <tr key={post._id}>
-                                <td> {post.title} </td>
-                                <td> {post.year? post.year: ""} </td>
-                                <td> {post.cast? post.cast.map((el) => el + ", "): ""} </td>  
-                                <td> {post.genres? post.genres.map((el) => el + ", "): ""} </td>     
-                            </tr>
-                        ))}
-                    </tbody>
-                </table> 
+
+                <div className="site-card-wrapper">
+                    <Row justify="center" align='middle'>
+                        {body}
+                    </Row>
+                </div>
+
+
+
                 <div className='mt-2'>
                     <button
                         className="btn btn-primary m-2"
