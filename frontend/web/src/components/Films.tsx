@@ -167,7 +167,7 @@ export default function Films() {
                         </Select>
                     </div>
                     <div className='px-2'>
-                        <DatePicker defaultValue={(parseInt(year,10) !== 0)? moment(year) : undefined} style={{ width: 200 }} onChange={(date,dateString) => dispatch(setYear(dateString))} picker="year" />
+                        <DatePicker defaultValue={(parseInt(year,10) !== 0)? moment(year) : undefined} style={{ width: 200 }} onChange={(date,dateString) => {dateString == ""? dispatch(setYear("0")) : dispatch(setYear(dateString)) }} picker="year" />
                     </div>
                     <div className='px-2'>
                         <Button
