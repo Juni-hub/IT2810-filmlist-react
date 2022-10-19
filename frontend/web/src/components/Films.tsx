@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client'
-import { Button, DatePicker, DatePickerProps, Modal, Select } from 'antd';
+import { Button, DatePicker, DatePickerProps, Modal, Select, Col, Card, Row, Space } from 'antd';
 import { RangePickerProps } from 'antd/lib/date-picker';
 import Search from 'antd/lib/input/Search';
 import moment from 'moment';
@@ -117,87 +117,83 @@ export default function Films() {
         setIsModalOpen(true);
     }
 
+    let body: any = [];
+    body.push (
+        data.getFilteredPosts?.map((post: Film) => (
+            <Col xs={24} md={6} className="my-4 mx-2">
+                <Card hoverable={true} onClick={() => handleClick(post)} title={post.title} style={{textAlign: "center"}} >
+                    <p style={{textAlign: "center"}}> {post.year? post.year: ""} </p>
+                </Card>
+            </Col>
+        ))
+    )
+
     return (
         <>
         {!loading && !error && 
-            <div className='container m-3'>    
-                <div className='d-flex pt-4'>
+            <div className='container m-3 pb-3'>    
+                <div className='d-flex pt-2' style={{justifyContent: "center"}}>
                     <div className='px-2'>
-                        <Search defaultValue={titleFilter !== ""? titleFilter.toString(): undefined} placeholder="input search text" onChange={(e) => handleFilterInput(e.target.value)} onSearch={changeTitle} style={{ width: 400 }} />
+                            <Search defaultValue={titleFilter !== ""? titleFilter.toString(): undefined} placeholder="input search text" onChange={(e) => handleFilterInput(e.target.value)} onSearch={changeTitle} style={{ width: 400 }} />
+                        </div>
+                        <div className='px-2'>
+                            <Select defaultValue={genreFilter !== ""? genreFilter.toString(): undefined} style={{ width: 200 }} onChange={changeGenre}>
+                                {optionList}
+                            </Select>
+                        </div>
+                        <div className='px-2'>
+                            <DatePicker disabledDate={disabledYear} defaultValue={(yearFilter !== 0)? moment(yearFilter.toString()) : undefined} style={{ width: 200 }} onChange={changeDate} picker="year" />
+                        </div>
+                        <div className='px-2'>
+                            <Button
+                                type="primary"
+                                onClick={() => {
+                                    setOpenCreate(true);
+                                }}
+                            >
+                                New Film
+                            </Button>
+                            <CollectionCreateForm
+                                open={openCreate}
+                                onCreate={onCreate}
+                                onCancel={() => {
+                                    setOpenCreate(false);
+                                }}
+                            /> 
+                        </div>
                     </div>
-                    <div className='px-2'>
-                        <Select defaultValue={genreFilter !== ""? genreFilter.toString(): undefined} style={{ width: 200 }} onChange={changeGenre}>
-                            {optionList}
-                        </Select>
+
+                    <div className="site-card-wrapper">
+                        <Row justify="center" align='middle'>
+                            {body}
+                        </Row>
+                        <ShowFilmItem 
+                            film={currentPost} 
+                            open={isModalOpen} 
+                            onCancel={handleCancel} 
+                        />
                     </div>
-                    <div className='px-2'>
-                        <DatePicker disabledDate={disabledYear} defaultValue={(yearFilter !== 0)? moment(yearFilter.toString()) : undefined} style={{ width: 200 }} onChange={changeDate} picker="year" />
-                    </div>
-                    <div className='px-2'>
-                        <Button
-                            type="primary"
-                            onClick={() => {
-                                setOpenCreate(true);
-                            }}
+
+                    <div className='mt-2 mb-2' style={{textAlign: "center"}}>
+                        <button
+                            className="btn btn-primary m-2"
+                            id="buttonLoadMore"
+                            disabled={loading}
+                            onClick={() => (setPage(prev => prev-1))}
                         >
-                            New Film
-                        </Button>
-                        <CollectionCreateForm
-                            open={openCreate}
-                            onCreate={onCreate}
-                            onCancel={() => {
-                                setOpenCreate(false);
-                            }}
-                        /> 
+                            Previous
+                        </button>
+                        <button
+                            className="btn btn-primary"
+                            id="buttonLoadMore"
+                            disabled={loading}
+                            onClick={() => (setPage(prev => prev+1))}
+                        >
+                            Next
+                        </button>
                     </div>
                 </div>
-                <div>
-                    <table className='table table-hover mt-3 mb-3 pt-2'>
-                        <thead>
-                            <tr>
-                                <th>Title</th>
-                                <th>Year</th>
-                                <th>Cast</th>
-                                <th>Genres</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {data.getFilteredPosts?.map((post: Film) => (
-                                <tr onClick={() => handleClick(post)} key={post._id}>
-                                    <td> {post.title} </td>
-                                    <td> {post.year? post.year: ""} </td>
-                                    <td> {post.cast? post.cast.map((el) => el + ", "): ""} </td>  
-                                    <td> {post.genres? post.genres.map((el) => el + ", "): ""} </td>     
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table> 
-                    <ShowFilmItem 
-                        film={currentPost} 
-                        open={isModalOpen} 
-                        onCancel={handleCancel} 
-                    />
-                </div>
-                <div className='mt-2'>
-                    <button
-                        className="btn btn-primary m-2"
-                        id="buttonLoadMore"
-                        disabled={loading}
-                        onClick={() => (setPage(prev => prev-1))}
-                    >
-                        Previous
-                    </button>
-                    <button
-                        className="btn btn-primary"
-                        id="buttonLoadMore"
-                        disabled={loading}
-                        onClick={() => (setPage(prev => prev+1))}
-                    >
-                        Next
-                    </button>
-                </div>
-            </div>
-        }
+            }
         </>
     )
 }
