@@ -1,25 +1,6 @@
 import { Form, Input, Modal, Select } from "antd";
-
-interface Values {
-    title: string;
-    description: string;
-    modifier: string;
-}
-  
-interface CollectionCreateFormProps {
-    open: boolean;
-    onCreate: (values: Values) => void;
-    onCancel: () => void;
-}
-
-const optionItems = ["Drama", "Documentary", "Sports", "Silent", "Adventure", "Western", "Romance", "War", "Comedy", "Horror", "Historical", "Animated"]
-const optionList: React.ReactNode[] = [];
-
-
-const { Option } = Select;
-optionItems.forEach((e) => {
-    optionList.push(<Option key={e}>{e}</Option>);
-})
+import { optionList } from "../helpers/helpers";
+import { CollectionCreateFormProps } from '../utils/Interface';
 
 export const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
     open,

@@ -5,7 +5,7 @@ import Films from './components/Films';
 import 'antd/dist/antd.css';
 import './App.css';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import FilmItem from './components/FilmItem';
+import { PageHeader } from 'antd';
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql', 
@@ -24,9 +24,13 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
+        <PageHeader
+          className="site-page-header m-4"
+          title="Film database"
+          subTitle="This database shows films from 1900-2000"
+        />
         <Routes>
           <Route path="/" element={ <Films /> } />
-          <Route path="/:id" element={ <FilmItem /> } />
         </Routes>
       </Router>
     </ApolloProvider>

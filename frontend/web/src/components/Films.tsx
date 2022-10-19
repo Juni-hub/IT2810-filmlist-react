@@ -1,21 +1,16 @@
 import { useMutation, useQuery } from '@apollo/client'
-import { Button, DatePicker, DatePickerProps, Select } from 'antd';
+import { Button, DatePicker, DatePickerProps, Modal, Select } from 'antd';
+import { RangePickerProps } from 'antd/lib/date-picker';
 import Search from 'antd/lib/input/Search';
 import moment from 'moment';
 import { useState } from 'react';
+import { optionList } from '../helpers/helpers';
 import { SEARCH_FILMS, ADD_FILM } from '../queries/filmQueries';
 import { Film } from '../utils/Interface';
 import { CollectionCreateForm } from './AddFilm';
+import { ShowFilmItem } from './FilmItem';
 
 const PAGE_SIZE = 15;
-const { Option } = Select;
-
-const optionItems = ["Drama", "Documentary", "Sports", "Silent", "Adventure", "Western", "Romance", "War", "Comedy", "Horror", "Historical", "Animated"]
-const optionList: React.ReactNode[] = [];
-
-optionItems.forEach((e) => {
-    optionList.push(<Option key={e}>{e}</Option>);
-})
 
 export default function Films() {
     const [page, setPage] = useState(0);
@@ -23,9 +18,23 @@ export default function Films() {
     const [titleFilter, setTitleFilter] = useState<String>("");
     const [genreFilter, setGenreFilter] = useState<String>("");
     const [yearFilter, setYearFilter] = useState(0);
-    const [open, setOpen] = useState(false);
+    const [openCreate, setOpenCreate] = useState(false);
+    const [currentPost, setCurrentPost] = useState<Film>({
+        _id: "",
+        title: "",
+        year: "",
+        cast: [""],
+        genres: [""]
+    });
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleCancel = () => {
+      setIsModalOpen(false);
+    };
 
     const [createPost] = useMutation(ADD_FILM);
+    
     const { loading, error, data } = useQuery(SEARCH_FILMS, {
         variables: {
             limit: PAGE_SIZE,
@@ -35,6 +44,10 @@ export default function Films() {
             yearFilter: yearFilter,
         },
     });
+
+    function disabledYear(current: any) {
+        return current.year() > 2022 || current.year() < 1900;
+    }
 
     if (loading) {
         return (
@@ -73,7 +86,7 @@ export default function Films() {
             }
         });
         setTitleFilter(values.title);
-        setOpen(false);
+        setOpenCreate(false);
     };
 
     const handleFilterInput = (input: string) => {
@@ -98,6 +111,12 @@ export default function Films() {
         setGenreFilter("");
     };
 
+    function handleClick(post: Film) {
+        console.log(post.title)
+        setCurrentPost(post);
+        setIsModalOpen(true);
+    }
+
     return (
         <>
         {!loading && !error && 
@@ -112,46 +131,53 @@ export default function Films() {
                         </Select>
                     </div>
                     <div className='px-2'>
-                        <DatePicker defaultValue={(yearFilter !== 0)? moment(yearFilter.toString()) : undefined} style={{ width: 200 }} onChange={changeDate} picker="year" />
+                        <DatePicker disabledDate={disabledYear} defaultValue={(yearFilter !== 0)? moment(yearFilter.toString()) : undefined} style={{ width: 200 }} onChange={changeDate} picker="year" />
                     </div>
                     <div className='px-2'>
                         <Button
                             type="primary"
                             onClick={() => {
-                                setOpen(true);
+                                setOpenCreate(true);
                             }}
                         >
                             New Film
                         </Button>
                         <CollectionCreateForm
-                            open={open}
+                            open={openCreate}
                             onCreate={onCreate}
                             onCancel={() => {
-                                setOpen(false);
+                                setOpenCreate(false);
                             }}
                         /> 
                     </div>
                 </div>
-                <table className='table table-hover mt-3 mb-3 pt-2'>
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Year</th>
-                            <th>Cast</th>
-                            <th>Genres</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data.getFilteredPosts?.map((post: Film) => (
-                            <tr key={post._id}>
-                                <td> {post.title} </td>
-                                <td> {post.year? post.year: ""} </td>
-                                <td> {post.cast? post.cast.map((el) => el + ", "): ""} </td>  
-                                <td> {post.genres? post.genres.map((el) => el + ", "): ""} </td>     
+                <div>
+                    <table className='table table-hover mt-3 mb-3 pt-2'>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Year</th>
+                                <th>Cast</th>
+                                <th>Genres</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table> 
+                        </thead>
+                        <tbody>
+                            {data.getFilteredPosts?.map((post: Film) => (
+                                <tr onClick={() => handleClick(post)} key={post._id}>
+                                    <td> {post.title} </td>
+                                    <td> {post.year? post.year: ""} </td>
+                                    <td> {post.cast? post.cast.map((el) => el + ", "): ""} </td>  
+                                    <td> {post.genres? post.genres.map((el) => el + ", "): ""} </td>     
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table> 
+                    <ShowFilmItem 
+                        film={currentPost} 
+                        open={isModalOpen} 
+                        onCancel={handleCancel} 
+                    />
+                </div>
                 <div className='mt-2'>
                     <button
                         className="btn btn-primary m-2"
@@ -175,3 +201,16 @@ export default function Films() {
         </>
     )
 }
+
+
+/*
+
+                            <Modal title="Chosen film" film={currentPost} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                                <p>Title: {currentPost.title}</p>
+                                <p>Year: {currentPost.year? currentPost.year: ""} </p>
+                                <p>Cast: {currentPost.cast? currentPost.cast.map((el) => el + ", "): ""}</p>
+                                <p>Genres: {currentPost.genres? currentPost.genres.map((el) => el + ", "): ""}</p>
+                            </Modal>
+
+
+*/
