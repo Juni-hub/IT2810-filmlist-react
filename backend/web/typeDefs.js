@@ -11,8 +11,6 @@ const typeDefs = gql`
     
   type Query {
     getFilteredPosts(offset: Int, limit: Int, titleFilter: String, genreFilter: String, yearFilter: Int): [Post!]
-    getAllPosts(offset: Int, limit: Int): [Post!]
-    getPost(_id: ID): Post
   }
 
   type Mutation {

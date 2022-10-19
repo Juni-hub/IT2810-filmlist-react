@@ -1,12 +1,10 @@
 import 'antd/dist/antd.css';
 import './App.css';
-
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import { PageHeader } from 'antd';
 import { ApolloClient, ApolloProvider, InMemoryCache, } from '@apollo/client';
-import {Route, BrowserRouter as Router, Routes} from 'react-router-dom';
-
-import FilmItem from './components/FilmItem';
 import Films from './components/Films';
-import {Provider} from "react-redux";
+import { Provider } from "react-redux";
 import React from 'react';
 import {relayStylePagination} from "@apollo/client/utilities";
 import store from "./redux/store";
@@ -27,14 +25,18 @@ const client = new ApolloClient({
 function App() {
   return (
     <Provider store = {store}>
-    <ApolloProvider client={client}>
-      <Router>
-        <Routes>
-          <Route path="/" element={ <Films /> } />
-          <Route path="/:id" element={ <FilmItem /> } />
-        </Routes>
-      </Router>
-    </ApolloProvider>
+      <ApolloProvider client={client}>
+        <Router>
+          <PageHeader
+            className="site-page-header m-4"
+            title="The film database"
+            subTitle="The database that shows a selection of films from 1900-2018"
+          />
+          <Routes>
+            <Route path="/" element={ <Films /> } />
+          </Routes>
+        </Router>
+      </ApolloProvider>
     </Provider>
   );
 }
