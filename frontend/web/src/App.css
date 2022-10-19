@@ -1,5 +1,16 @@
 @import '~antd/dist/antd.css';
 
+.ant-btn-primary {
+    background-color: #37474F !important;
+    border-color: #37474F !important;
+    color: 'white'
+}
+.ant-btn-primary:hover {
+    background-color: #222222 !important;
+    border-color: #222222 !important;
+    color: 'white'
+}
+
 .site-page-header {
     border: 1px solid rgb(235, 237, 240);
     background-color: white;

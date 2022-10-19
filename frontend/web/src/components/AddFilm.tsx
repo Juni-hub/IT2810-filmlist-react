@@ -16,6 +16,7 @@ export const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
         okText="Create"
         cancelText="Cancel"
         onCancel={onCancel}
+        
         onOk={() => {
             form
             .validateFields()

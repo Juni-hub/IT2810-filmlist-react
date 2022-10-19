@@ -1,6 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client'
-import { Button, DatePicker, DatePickerProps, Modal, Select, Col, Card, Row, Space } from 'antd';
-import { RangePickerProps } from 'antd/lib/date-picker';
+import { Button, DatePicker, DatePickerProps, Select, Col, Card, Row } from 'antd';
 import Search from 'antd/lib/input/Search';
 import moment from 'moment';
 import { useState } from 'react';
@@ -122,7 +121,7 @@ export default function Films() {
         data.getFilteredPosts?.map((post: Film) => (
             <Col xs={24} md={6} className="my-4 mx-2">
                 <Card hoverable={true} onClick={() => handleClick(post)} title={post.title} style={{textAlign: "center"}} >
-                    <p style={{textAlign: "center"}}> {post.year? post.year: ""} </p>
+                    <p style={{textAlign: "center"}}> Year Released: {post.year? post.year: ""} </p>
                 </Card>
             </Col>
         ))
@@ -150,7 +149,6 @@ export default function Films() {
                                 onClick={() => {
                                     setOpenCreate(true);
                                 }}
-                                style={{ background: "#37474F", borderColor: "#37474F", color: 'white' }}
                             >
                                 New Film
                             </Button>
@@ -176,40 +174,26 @@ export default function Films() {
                     </div>
 
                     <div className='mt-2 mb-2' style={{textAlign: "center"}}>
-                        <button
-                            className="btn btn-primary m-2"
+                        <Button
+                            type='primary'
+                            className="m-2"
                             id="buttonLoadMore"
                             disabled={loading}
                             onClick={() => (setPage(prev => prev-1))}
-                            style={{ background: "#37474F", borderColor: "#37474F", color: 'white' }}
                         >
                             Previous
-                        </button>
-                        <button
-                            className="btn btn-primary"
+                        </Button>
+                        <Button
+                            type='primary'
                             id="buttonLoadMore"
                             disabled={loading}
                             onClick={() => (setPage(prev => prev+1))}
-                            style={{ background: "#37474F", borderColor: "#37474F", color: 'white' }}
                         >
                             Next
-                        </button>
+                        </Button>
                     </div>
                 </div>
             }
         </>
     )
 }
-
-
-/*
-
-                            <Modal title="Chosen film" film={currentPost} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                                <p>Title: {currentPost.title}</p>
-                                <p>Year: {currentPost.year? currentPost.year: ""} </p>
-                                <p>Cast: {currentPost.cast? currentPost.cast.map((el) => el + ", "): ""}</p>
-                                <p>Genres: {currentPost.genres? currentPost.genres.map((el) => el + ", "): ""}</p>
-                            </Modal>
-
-
-*/
