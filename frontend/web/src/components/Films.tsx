@@ -134,15 +134,15 @@ export default function Films() {
             <div className='container m-3 pb-3'>    
                 <div className='d-flex pt-2' style={{justifyContent: "center"}}>
                     <div className='px-2'>
-                            <Search defaultValue={titleFilter !== ""? titleFilter.toString(): undefined} placeholder="input search text" onChange={(e) => handleFilterInput(e.target.value)} onSearch={changeTitle} style={{ width: 400 }} />
+                            <Search defaultValue={titleFilter !== ""? titleFilter.toString(): undefined} placeholder="Search for title" onChange={(e) => handleFilterInput(e.target.value)} onSearch={changeTitle} style={{ width: 400 }} />
                         </div>
                         <div className='px-2'>
-                            <Select defaultValue={genreFilter !== ""? genreFilter.toString(): undefined} style={{ width: 200 }} onChange={changeGenre}>
+                            <Select defaultValue={genreFilter !== ""? genreFilter.toString(): undefined} style={{ width: 200 }} placeholder="Choose a genre" onChange={changeGenre}>
                                 {optionList}
                             </Select>
                         </div>
                         <div className='px-2'>
-                            <DatePicker disabledDate={disabledYear} defaultValue={(yearFilter !== 0)? moment(yearFilter.toString()) : undefined} style={{ width: 200 }} onChange={changeDate} picker="year" />
+                            <DatePicker disabledDate={disabledYear} defaultValue={(yearFilter !== 0)? moment(yearFilter.toString()) : undefined} style={{ width: 200 }} placeholder="Choose a year" onChange={changeDate} picker="year" />
                         </div>
                         <div className='px-2'>
                             <Button
@@ -150,6 +150,7 @@ export default function Films() {
                                 onClick={() => {
                                     setOpenCreate(true);
                                 }}
+                                style={{ background: "#37474F", borderColor: "#37474F", color: 'white' }}
                             >
                                 New Film
                             </Button>
@@ -180,6 +181,7 @@ export default function Films() {
                             id="buttonLoadMore"
                             disabled={loading}
                             onClick={() => (setPage(prev => prev-1))}
+                            style={{ background: "#37474F", borderColor: "#37474F", color: 'white' }}
                         >
                             Previous
                         </button>
@@ -188,6 +190,7 @@ export default function Films() {
                             id="buttonLoadMore"
                             disabled={loading}
                             onClick={() => (setPage(prev => prev+1))}
+                            style={{ background: "#37474F", borderColor: "#37474F", color: 'white' }}
                         >
                             Next
                         </button>
