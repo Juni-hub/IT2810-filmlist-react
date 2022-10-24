@@ -120,14 +120,13 @@ export default function Films() {
                         <Search 
                             defaultValue={title? title: undefined} 
                             placeholder="Search for title" 
-                            style={{ width: 300 }} 
                             onSearch={(e) => dispatch(setTitle(e))} 
                         />
                     </div>
                     <div className='px-2 pb-2'>
                         <Select 
                             defaultValue={genre? genre: undefined} 
-                            placeholder="Choose a genre" style={{ width: 150 }} 
+                            placeholder="Search for genre" 
                             onChange={(e) => dispatch(setGenre(e))}
                         >
                             {optionList}
@@ -138,7 +137,6 @@ export default function Films() {
                             disabledDate={disabledYear} 
                             defaultValue={(parseInt(year, 10) !== 0)? moment(year) : undefined} 
                             placeholder="Choose a year"
-                            style={{ width: 150 }} 
                             picker="year" 
                             onChange={(date, dateString) => {dateString === ""? dispatch(setYear("0")) : dispatch(setYear(dateString))}} 
                         />
