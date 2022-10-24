@@ -6,6 +6,7 @@ export interface Store {
     title: string;
     genre: string;
     year: string;
+    sorting: string;
 }
 
 // Redux implementation
@@ -13,6 +14,7 @@ function storeReducer(state: Store = {
     title: "",
     genre: "",
     year: "0",
+    sorting: "1",
 }, action: any) {
     switch (action.type) {
         case "SET_TITLE":
@@ -29,6 +31,11 @@ function storeReducer(state: Store = {
             return {
                 ...state,
                 year: action.payload
+            };
+        case "SET_SORTING":
+            return {
+                ...state,
+                sorting: action.payload
             };
         default:
             return state;
