@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const resolvers = {
   Query: {
-    getFilteredPosts: async (_, { offset, limit, titleFilter, genreFilter, yearFilter } ) => {
+    getFilteredPosts: async (_, { offset, limit, titleFilter, genreFilter, yearFilter, sorting } ) => {
       let filters = "{}";
       let data = null;
       var filterjson = JSON.parse( filters);
@@ -16,7 +16,7 @@ const resolvers = {
       } if (yearFilter != 0) {
         filterjson.year = yearFilter;
       } 
-      data = await Post.find(filterjson);
+      data = await Post.find(filterjson).sort({year: sorting});
       return data.slice(offset, limit + offset);
     },
   }, 

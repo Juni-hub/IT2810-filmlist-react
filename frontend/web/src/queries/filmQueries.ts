@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
 export const SEARCH_FILMS = gql`
-  query getPosts($limit: Int!, $offset: Int!, $titleFilter: String, $genreFilter: String, $yearFilter: Int) {
-    getFilteredPosts(limit: $limit, offset: $offset, titleFilter: $titleFilter, genreFilter: $genreFilter, yearFilter: $yearFilter) {
+  query getPosts($limit: Int!, $offset: Int!, $titleFilter: String, $genreFilter: String, $yearFilter: Int, $sorting: Int) {
+    getFilteredPosts(limit: $limit, offset: $offset, titleFilter: $titleFilter, genreFilter: $genreFilter, yearFilter: $yearFilter, sorting: $sorting) {
         _id
         title
         year
