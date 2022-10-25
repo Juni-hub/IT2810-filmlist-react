@@ -12,11 +12,10 @@ test project:
   stage: test
   image: node
   before_script: 
-    - cd frontend/web
+    - cd backend/web
   script:
     - npm install
     - npm test
-    - npx cypress run
 
 build project:
   stage: build
