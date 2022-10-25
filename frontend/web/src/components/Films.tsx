@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client'
-import { Button, DatePicker, Select, Col, Card, Row, Space } from 'antd';
+import { Button, DatePicker, Select, Col, Card, Row } from 'antd';
 import { ADD_FILM, SEARCH_FILMS } from '../queries/filmQueries';
 import { setGenre, setSorting, setTitle, setYear } from '../redux/actions';
 import {useDispatch, useSelector} from "react-redux";
