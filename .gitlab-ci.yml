@@ -12,7 +12,7 @@ test project:
   stage: test
   image: node
   before_script: 
-    - cd backend/web
+    - cd frontend/web
   script:
     - npm install
     - npm test
