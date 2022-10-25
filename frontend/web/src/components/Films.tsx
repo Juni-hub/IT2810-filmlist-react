@@ -1,17 +1,18 @@
-import { useMutation, useQuery } from '@apollo/client'
-import { Button, DatePicker, Select, Col, Card, Row } from 'antd';
 import { ADD_FILM, SEARCH_FILMS } from '../queries/filmQueries';
+import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
+import { Button, Card, Col, DatePicker, Row, Select } from 'antd';
+import { disabledYear, optionList } from '../helpers/helpers';
 import { setGenre, setSorting, setTitle, setYear } from '../redux/actions';
 import {useDispatch, useSelector} from "react-redux";
-import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
+import { useMutation, useQuery } from '@apollo/client'
+
+import { CollectionCreateForm } from './AddFilm';
+import { Film } from '../utils/Interface';
 import Search from 'antd/lib/input/Search';
+import { ShowFilmItem } from './FilmItem';
 import {Store} from "../redux/store";
 import moment from 'moment';
 import { useState } from 'react';
-import { disabledYear, optionList } from '../helpers/helpers';
-import { Film } from '../utils/Interface';
-import { CollectionCreateForm } from './AddFilm';
-import { ShowFilmItem } from './FilmItem';
 
 const { Option } = Select;
 const PAGE_SIZE = 15;
@@ -118,6 +119,7 @@ export default function Films() {
                 <div className='d-flex flex-wrap' style={{justifyContent: "center"}}>
                     <div className='px-2 pb-2'>
                         <Search 
+                            id='search'
                             defaultValue={title? title: undefined} 
                             placeholder="Search for title" 
                             onSearch={(e) => dispatch(setTitle(e))} 
@@ -125,6 +127,7 @@ export default function Films() {
                     </div>
                     <div className='px-2 pb-2'>
                         <Select 
+                            id='genre'
                             defaultValue={genre? genre: undefined} 
                             placeholder="Search for genre" 
                             onChange={(e) => dispatch(setGenre(e))}
@@ -134,6 +137,7 @@ export default function Films() {
                     </div>
                     <div className='px-2 pb-2'>
                         <DatePicker 
+                            id='year'
                             disabledDate={disabledYear} 
                             defaultValue={(parseInt(year, 10) !== 0)? moment(year) : undefined} 
                             placeholder="Choose a year"
@@ -143,6 +147,7 @@ export default function Films() {
                     </div>
                     <div className='px-2 pb-2'>
                         <Select 
+                            id='sort'
                             placeholder={"Sort on year"} 
                             onChange={(e) => dispatch(setSorting(e))}
                         >
@@ -160,6 +165,7 @@ export default function Films() {
                     </div>
                     <div className='px-2 pb-2'>
                         <Button
+                            id='addFilm'
                             type="primary"
                             onClick={() => {
                                 setOpenCreate(true);
