@@ -16,6 +16,7 @@ test project:
   script:
     - npm install
     - npm test
+    - npx cypress run
 
 build project:
   stage: build
