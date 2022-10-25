@@ -1,13 +1,8 @@
 describe('shows more information when clicking on a film', () => {
-    beforeEach(() => {
-      cy.visit('localhost:3000');
-    })
-  
-    it('enables clicking', () => {
-      cy.get('body').contains('After').click();
-    })
   
     it('shows more information', () => {
+      cy.visit('/');
+
       //ACTION
       cy.contains('After').click();
   

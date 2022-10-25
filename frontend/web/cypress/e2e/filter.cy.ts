@@ -1,15 +1,15 @@
-describe('filter', () => {
+describe('filtering', () => {
   beforeEach(() => {
-    cy.visit('localhost:3000');
+    cy.visit('/');
   })
 
-  it('displays a options for filtering', () => {
+  it('displays filters', () => {
     cy.get('#search').should('contain.text','');
     cy.get('#genre').should('contain.text','');
     cy.get('#year').should('contain.text','');
   })
 
-  it('enables filtering', () => {
+  it('filtering works', () => {
     //ACTION
     cy.get('#search').type('The {enter}');
 

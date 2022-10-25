@@ -1,13 +1,13 @@
-describe('sort', () => {
+describe('sorting', () => {
     beforeEach(() => {
-      cy.visit('localhost:3000');
+      cy.visit('/');
     })
   
-    it('displays a options for sorting', () => {
+    it('displays sorting-option', () => {
       cy.get('#sort').should('contain.text','');
     })
   
-    it('enables sorting', () => {
+    it('sorting works', () => {
       //ACTION
       cy.get('#sort').click();
       cy.contains('Descending').click();
