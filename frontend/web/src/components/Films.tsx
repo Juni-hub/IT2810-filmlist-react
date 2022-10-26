@@ -106,7 +106,7 @@ export default function Films() {
         dispatch(setYear("0"))
         dispatch(setSorting("1"))
 
-        title = useSelector ((state: Store) => state.title);
+        title = "";
         genre = useSelector ((state: Store) => state.genre);
         year = useSelector ((state: Store) => state.year);
         sorting = useSelector ((state: Store) => state.sorting);
@@ -120,7 +120,7 @@ export default function Films() {
                     <div className='px-2 pb-2'>
                         <Search 
                             id='search'
-                            defaultValue={title? title: undefined} 
+                            value={title? title: undefined} 
                             placeholder="Search for title" 
                             onSearch={(e) => dispatch(setTitle(e))} 
                         />
@@ -128,7 +128,7 @@ export default function Films() {
                     <div className='px-2 pb-2'>
                         <Select 
                             id='genre'
-                            defaultValue={genre? genre: undefined} 
+                            value={genre? genre: undefined} 
                             placeholder="Search for genre" 
                             onChange={(e) => dispatch(setGenre(e))}
                         >
@@ -139,7 +139,7 @@ export default function Films() {
                         <DatePicker 
                             id='year'
                             disabledDate={disabledYear} 
-                            defaultValue={(parseInt(year, 10) !== 0)? moment(year) : undefined} 
+                            value={(parseInt(year, 10) !== 0)? moment(year) : undefined} 
                             placeholder="Choose a year"
                             picker="year" 
                             onChange={(date, dateString) => {dateString === ""? dispatch(setYear("0")) : dispatch(setYear(dateString))}} 
