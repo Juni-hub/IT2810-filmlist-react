@@ -13,6 +13,7 @@
     "@types/react-dom": "^18.0.6",
     "antd": "^4.23.5",
     "bootstrap": "^5.2.2",
+    "cypress": "^10.10.0",
     "graphql": "^16.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -27,7 +28,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts build",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

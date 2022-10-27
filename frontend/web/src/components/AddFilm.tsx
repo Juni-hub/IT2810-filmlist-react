@@ -1,6 +1,7 @@
 import { Form, Input, Modal, Select } from "antd";
-import { optionList } from "../helpers/helpers";
+
 import { CollectionCreateFormProps } from '../utils/Interface';
+import { optionList } from "../helpers/helpers";
 
 export const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
   open,
