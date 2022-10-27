@@ -119,6 +119,7 @@ export default function Films() {
                 <div className='d-flex flex-wrap' style={{justifyContent: "center"}}>
                     <div className='px-2 pb-2'>
                         <Search 
+                            data-testid = "searchField"
                             id='search'
                             value={title? title: undefined} 
                             placeholder="Search for title" 
@@ -127,6 +128,7 @@ export default function Films() {
                     </div>
                     <div className='px-2 pb-2'>
                         <Select 
+                            data-testid = "genre"
                             id='genre'
                             value={genre? genre: undefined} 
                             placeholder="Search for genre" 
@@ -137,6 +139,7 @@ export default function Films() {
                     </div>
                     <div className='px-2 pb-2'>
                         <DatePicker 
+                            data-testid = "year"
                             id='year'
                             disabledDate={disabledYear} 
                             value={(parseInt(year, 10) !== 0)? moment(year) : undefined} 
@@ -157,6 +160,7 @@ export default function Films() {
                     </div>
                     <div className='px-2 pb-2'>
                         <Button
+                            data-testid = "resetFields"
                             type="primary"
                             onClick={useReset}
                         >
