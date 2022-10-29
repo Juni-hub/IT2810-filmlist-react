@@ -2,12 +2,11 @@
 
 Dokumentasjonen skal diskutere, forklare og vise til alle de viktigste valgene og løsningene som gruppa gjør (inklusive valg av komponenter og api).
 
-
 ## Backend
 
 ### MongoDB
 
-Gruppen har valgt å bruke en MongoDB database for å lagre data. Gruppen definerer et Schema kalt PostSchema for å definere hvilke felter som skal være med i et Post objekt. Feltene som benyttes er _id, title, year, cast og genres. _id og title er påkrevde felter.
+Gruppen har valgt å bruke en MongoDB database for å lagre data. Gruppen definerer et Schema kalt PostSchema for å definere hvilke felter som skal være med i et Post (film) objekt. Feltene som benyttes er _id, title, year, cast og genres. _id og title er påkrevde felter. 
 
 ### Express JS, GraphQL, Apollo Server
 
@@ -23,7 +22,7 @@ Videre har gruppen skrevet en Mutation kalt createPost som legger til nye filobj
 
 ### React m/ Typescript
 
-Applikasjonen bruker React for å lage UI komponentene som brukeren ser på nettsiden. React er implementert med Typescript, som er programmeringsspråk bygget på JavaScript ved at det er legt til statiske type definisjoner.
+Applikasjonen bruker React for å lage UI komponentene som brukeren ser på nettsiden. React er implementert med Typescript, som er et programmeringsspråk bygget på JavaScript ved at det er lagt til statiske type definisjoner.
 
 ### Apollo Client
 
@@ -34,3 +33,43 @@ Apollo Client brukes i React applikasjonen for å koble til GraphQL APIet. I kom
 ### Design komponenter (Antd, Bootstrap)
 
 Vi har brukt React UI bibliotekene Ant Design og Bootstrap. Ant Design er et bibliotek som tilbyr pene og enkle React-komponenter. Bootstrap brukes hovedsakelig til å style komponentene. Blant annet ved å definere padding og margin. 
+
+## Testing
+
+### End-2-end testing
+
+### Jest
+
+## Diskusjon
+
+### Universell utforming
+
+Universell utforming handler om at applikasjoner skal lages på en måte som gjør de tilgjengelige for alle, uavhengig av faktorer som alder, funksjonsevne eller utdanningsnivå. 
+
+Web Content Accessibility Guidelines (WCAG) er en standard for å sikre universell utforming på nettsider. Retningslinjene er bygget opp av fire prinsipper. Under listes prinsippene og tiltakene gruppen har gjort for å sikre at de følges.  
+
+1. Mulig å oppfatte: Innhold presenteres for brukerene på måter de kan oppfatte.
+- Alt innhold og deres funksjonalitet er beskrevet og presentert for brukeren
+- Layouten til nettsiden er tilpasset alle skjermer uten at informasjon eller struktur går tapt
+- Farge og fargekontraster er brukt på en måte som gjør innholdet synlig og tilgjengelig for alle brukere.
+
+2. Mulig å betjene: Innholdet skal være mulig å betjene uavhengig av hvordan brukeren navigerer.
+- Alt innhold er tilgjengelig uavhengig av utstyr som brukeren har (tastatur, mus, etc.)
+
+3. Forståelig: Innholdet på er forståelig
+- Gjennomtenkt bruk av font, tekststørrelse og farger
+- Lettlest og forståelig språkbruk
+- Forklarende tekster til innhold
+
+4. Robust: Innhold fungerer uavhengig av hjelpemidler du bruker 
+- Innholdet er kompatibel med og testet på ulike nettlesere (Safari, Chroome, Firefox). Det brukes ikke komponenter som ikke støttes av alle nettlesere.
+
+### Bærekraftig utvikling
+
+Nettsiden benytter pagination og laster kun inn deler av innholdet (15 elementer) til en hver tid. Brukeren kan selv velge om de ønsker å laste inn mer innhold når de har sett alle elementene. Dette gir generelt sett lavere datatrafikk ettersom brukeren mest sannsylig ikke trenger gå igjennom alle objektene.
+
+Videre benyttes Redux som en cache for å effektivisere data som hentes og unngå unødvendige kall til serveren.
+
+Komponentene på nettsiden er minimale, men hensiktsmessige for å formidle innholdet til brukeren. Gruppen bruker verken bilder, videoer eller GIFs da disse krever mye datatrafikk og energibruk på klient. 
+
+Videre er nettsiden laget med dark mode. Dette er på grunn av at mørkere farger krever mindre energi og er av resultat mer miljøvennlig enn bruken av lysere farger.
