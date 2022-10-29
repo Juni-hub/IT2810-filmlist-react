@@ -1,5 +1,4 @@
 import { Provider } from 'react-redux'
-import { mount } from 'enzyme'
 import configureStore from 'redux-mock-store'
 import { render, screen } from '@testing-library/react';
 import { ReactElement, JSXElementConstructor, ReactFragment, ReactPortal } from 'react'

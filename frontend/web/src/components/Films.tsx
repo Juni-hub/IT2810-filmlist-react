@@ -158,9 +158,9 @@ export default function Films() {
                             <Option value="-1"><ArrowDownOutlined /> Descending</Option>
                         </Select>
                     </div>
-                    <div className='px-2 pb-2'>
+                    <div  className='px-2 pb-2'>
                         <Button
-                            data-testid = "resetFields"
+                            data-testid="reset"
                             type="primary"
                             onClick={useReset}
                         >
