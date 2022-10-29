@@ -75,8 +75,8 @@ export default function Films() {
             variables: {
                 title: values.title,
                 year: values.year? parseInt(values.year, 10) : null,
-                cast: values.cast? values.cast.split(",") : null,
-                genres: values.genres? [values.genres]: null,
+                cast: values.cast? values.cast.split(",") : [],
+                genres: values.genres? [values.genres]: [],
             }
         });
         dispatch(setTitle(values.title))
@@ -114,16 +114,16 @@ export default function Films() {
     return (
         <>
         {!loading && !error && 
-            <div className='container m-3 pb-3 mt-2 mb-2' style={{textAlign: "center"}}>    
+            <div className='container m-3 pb-4 mt-2 mb-2' style={{textAlign: "center"}}>    
                 <div className='d-flex flex-wrap' style={{justifyContent: "center"}}>
-                    <div className='px-2 pb-2'>
+                    <div className='px-2 pb-3'>
                         <Search 
                             defaultValue={title? title: undefined} 
                             placeholder="Search for title" 
                             onSearch={(e) => dispatch(setTitle(e))} 
                         />
                     </div>
-                    <div className='px-2 pb-2'>
+                    <div className='px-2 pb-3'>
                         <Select 
                             defaultValue={genre? genre: undefined} 
                             placeholder="Search for genre" 
@@ -132,7 +132,7 @@ export default function Films() {
                             {optionList}
                         </Select>
                     </div>
-                    <div className='px-2 pb-2'>
+                    <div className='px-2 pb-3'>
                         <DatePicker 
                             disabledDate={disabledYear} 
                             defaultValue={(parseInt(year, 10) !== 0)? moment(year) : undefined} 
@@ -141,7 +141,7 @@ export default function Films() {
                             onChange={(date, dateString) => {dateString === ""? dispatch(setYear("0")) : dispatch(setYear(dateString))}} 
                         />
                     </div>
-                    <div className='px-2 pb-2'>
+                    <div className='px-2 pb-3'>
                         <Select 
                             placeholder={"Sort on year"} 
                             onChange={(e) => dispatch(setSorting(e))}
@@ -150,7 +150,7 @@ export default function Films() {
                             <Option value="-1"><ArrowDownOutlined /> Descending</Option>
                         </Select>
                     </div>
-                    <div className='px-2 pb-2'>
+                    <div className='px-2 pb-3'>
                         <Button
                             type="primary"
                             onClick={useReset}
@@ -158,7 +158,7 @@ export default function Films() {
                             Reset Filters
                         </Button>
                     </div>
-                    <div className='px-2 pb-2'>
+                    <div className='px-2 pb-3'>
                         <Button
                             type="primary"
                             onClick={() => {

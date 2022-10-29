@@ -6,12 +6,12 @@
     color: 'white'
 }
 .ant-btn-primary:hover {
-    background-color: #222222 !important;
-    border-color: #222222 !important;
+    background-color: #15202B !important;
+    border-color: #15202B !important;
     color: 'white'
 }
 
 .site-page-header {
-    border: 1px solid rgb(235, 237, 240);
-    background-color: white;
+    border: 1px solid #8899A6;
+    background-color: #8899A6;
 }
