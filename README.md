@@ -1,8 +1,29 @@
 # Prosjekt 3
 
-Dokumentasjonen skal diskutere, forklare og vise til alle de viktigste valgene og løsningene som gruppa gjør (inklusive valg av komponenter og api).
+Applikasjonen henter data fra en databasen og viser et utvalg filmer utgitt fra 1900 til i dag. Hver film er beskrevet med tittel, utgivelsesår, rollebesetning og sjanger. Det er mulig å finne en ønsket film ved å filtrere på en enkelt eller en kombinasjon av disse verdiene. Videre er det mulig å sortere dataene i stigende eller synkende rekkefølge etter utgivelsesår. Det er også mulig for brukeren å legge til sine egne filmer i databasen. Hver film kan trykkes på for å vise mer informasjon.
+
+## Kjøre prosjektet
+For å kjøre applikasjonen må prosjektet først klones fra gitlab. 
+
+Følgende kommandoer i terminalen for å starte serveren.
+```
+$ cd backend/web
+$ npm install
+$ npm run dev
+```
+Følgende kommandoer i terminalen for å starte react applikasjonen.
+```
+$ cd frontend/web
+$ npm install
+$ npm start
+```
+Etter å ha kjørt kommandoene vil applikasjonen kjøre på http://localhost:3000/.
 
 ## Backend
+
+### Structure
+- **/backend/web**: Inneholder resolvers og typeDefs for å definere hvordan data skal håndteres fra databasen. </br>
+    - **/models**: Inneholder mongoose Schemaet Post.Model.js som definerer hvile felter som et filmobjekt består av i databasen. </br>
 
 ### MongoDB
 
@@ -20,6 +41,15 @@ Videre har gruppen skrevet en Mutation kalt createPost som legger til nye filobj
 
 ## Frontend
 
+### Structure
+- **/frontend/web**: 
+    - **/src**: 
+        - **/components**: Inneholder alle komponentene som brukes i applikasjonen
+        - **/helpers**: Inneholder hjelpefunksjoner som brukes i applikasjonen
+        - **/queries**: Inneholder alle queries som brukes for å hente data fra serveren.
+        - **/redux**: Inneholder filene actions og store som spesifiserer redux og funksjonene som kan brukes til å samhandle med redux.
+        - **/utils**: Inneholder Interfaces brukt i frontend
+
 ### React m/ Typescript
 
 Applikasjonen bruker React for å lage UI komponentene som brukeren ser på nettsiden. React er implementert med Typescript, som er et programmeringsspråk bygget på JavaScript ved at det er lagt til statiske type definisjoner.
@@ -32,7 +62,7 @@ Apollo Client brukes i React applikasjonen for å koble til GraphQL APIet. I kom
 
 ### Design komponenter (Antd, Bootstrap)
 
-Vi har brukt React UI bibliotekene Ant Design og Bootstrap. Ant Design er et bibliotek som tilbyr pene og enkle React-komponenter. Bootstrap brukes hovedsakelig til å style komponentene. Blant annet ved å definere padding og margin. 
+Gruppen har brukt React UI bibliotekene Ant Design og Bootstrap. Ant Design er et bibliotek som tilbyr pene og enkle React-komponenter. Bootstrap brukes hovedsakelig til å style komponentene. Blant annet ved å definere padding og margin. 
 
 ## Testing
 
