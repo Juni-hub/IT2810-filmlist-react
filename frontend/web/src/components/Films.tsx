@@ -65,7 +65,7 @@ export default function Films() {
         console.log(error)
         return (
             <div className='container mt-3'>
-                <p>Something went wrong...</p>
+                <h5 style={{color: "#ffffff"}}>Something went wrong when trying to connect to the server...</h5>
             </div>
         )
     }

@@ -35,11 +35,11 @@ function App() {
             <>
             <Paragraph
             style={{fontSize: 18}}>
-              This database shows a selection of films from 1900-2018. 
-              Each film is described with its title, release year, cast and genres.
-              You are able to filter the films based on title, year and genre,
-              as well as sort the selection based on ascending or descending release years.
-              You are also able to add a new film into the database.
+              The database shows a selection of films released from 1900 to the present day. 
+              Each film is described with its title, year of release, cast and genre. 
+              It is possible to find a desired movie by filtering on one or a combination of these values. 
+              Furthermore, it is possible to sort the data in ascending or descending order by its year of release. 
+              It is also possible for the user to add their own films to the database.
             </Paragraph>
             </>
           </PageHeader>
