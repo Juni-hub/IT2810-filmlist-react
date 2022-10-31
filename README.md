@@ -105,7 +105,7 @@ Gruppen har brukt React UI bibliotekene Ant Design og Bootstrap for å designe n
 Bootstrap brukes hovedsakelig til å style komponentene med inline css i className. Det brukes blant annet for å lettere definere padding og margin for hver komponent. 
 
 ### Testing
-Prosjektet er testet ved bruk av Cypress for ende-til-endetesting og Jest for komponenttesting. 
+Prosjektet er testet ved bruk av Cypress for ende-til-endetesting og Jest for komponenttesting. I tillegg har vi bruke CI pipeline i GitLab for å passe på at koden i main fungerer gjennom utviklingsprosessen.
 #### End-2-end testing
 For å teste med Cypress må man først starte serveren og applikasjonen (se punkt lenger oppe). Deretter skriver man følgende kommandoer i terminalen for å starte Cypress-testen.
 ```
