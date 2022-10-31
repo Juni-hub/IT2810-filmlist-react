@@ -67,7 +67,7 @@ export default function Films() {
         console.log(error)
         return (
             <div className='container mt-3'>
-                <p>Something went wrong...</p>
+                <h5 style={{color: "#ffffff"}}>Something went wrong when trying to connect to the server...</h5>
             </div>
         )
     }
@@ -78,8 +78,8 @@ export default function Films() {
             variables: {
                 title: values.title,
                 year: values.year? parseInt(values.year, 10) : null,
-                cast: values.cast? values.cast.split(",") : null,
-                genres: values.genres? [values.genres]: null,
+                cast: values.cast? values.cast.split(",") : [],
+                genres: values.genres? [values.genres]: [],
             }
         });
         dispatch(setTitle(values.title))
@@ -117,9 +117,9 @@ export default function Films() {
     return (
         <>
         {!loading && !error && 
-            <div className='container m-3 pb-3 mt-2 mb-2' style={{textAlign: "center"}}>    
+            <div className='container m-3 pb-4 mt-2 mb-2' style={{textAlign: "center"}}>    
                 <div className='d-flex flex-wrap' style={{justifyContent: "center"}}>
-                    <div className='px-2 pb-2'>
+                    <div className='px-2 pb-3'>
                         <Search 
                             data-testid = "searchField"
                             id='search'
@@ -128,7 +128,7 @@ export default function Films() {
                             onSearch={(e) => dispatch(setTitle(e))} 
                         />
                     </div>
-                    <div className='px-2 pb-2'>
+                    <div className='px-2 pb-3'>
                         <Select 
                             data-testid = "genre"
                             id='genre'
@@ -139,7 +139,7 @@ export default function Films() {
                             {optionList}
                         </Select>
                     </div>
-                    <div className='px-2 pb-2'>
+                    <div className='px-2 pb-3'>
                         <DatePicker 
                             data-testid = "year"
                             id='year'
@@ -150,7 +150,7 @@ export default function Films() {
                             onChange={(date, dateString) => {dateString === ""? dispatch(setYear("0")) : dispatch(setYear(dateString))}} 
                         />
                     </div>
-                    <div className='px-2 pb-2'>
+                    <div className='px-2 pb-3'>
                         <Select 
                             id='sort'
                             placeholder={"Sort on year"} 
@@ -160,16 +160,15 @@ export default function Films() {
                             <Option value="-1"><ArrowDownOutlined /> Descending</Option>
                         </Select>
                     </div>
-                    <div  aria-label='edit' className='px-2 pb-2'>
+                    <div className='px-2 pb-3'>
                         <Button 
-                            data-testid="reset"
                             type="primary"
                             onClick={useReset}
                         >
                             Reset Filters
                         </Button>
                     </div>
-                    <div className='px-2 pb-2'>
+                    <div className='px-2 pb-3'>
                         <Button
                             id='addFilm'
                             type="primary"
