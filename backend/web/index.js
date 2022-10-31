@@ -14,6 +14,7 @@ async function startServer() {
 
   await apolloServer.start();
 
+  //apply express as middleware
   apolloServer.applyMiddleware({ app: app });
 
   app.use((req, res) => {
@@ -22,6 +23,7 @@ async function startServer() {
 
   app.use(cors());
   
+  //connect to mongodb-database
   await mongoose.connect("mongodb://admin:password@it2810-34.idi.ntnu.no:27017/admin?directConnection=true", {
     useUnifiedTopology: true,
     useNewUrlParser: true,

@@ -1,6 +1,8 @@
 const Post = require("./models/Post.model");
 const mongoose = require('mongoose');
 
+
+//functions for getting and editing documents in database
 const resolvers = {
   Query: {
     getFilteredPosts: async (_, { offset, limit, titleFilter, genreFilter, yearFilter, sorting } ) => {
