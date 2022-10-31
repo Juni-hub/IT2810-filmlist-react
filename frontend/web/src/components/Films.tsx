@@ -36,10 +36,10 @@ export default function Films() {
     const dispatch = useDispatch();
     const [createPost] = useMutation(ADD_FILM);
 
-    let title = useSelector ((state: Store) => state.title);
-    let genre = useSelector ((state: Store) => state.genre);
-    let year = useSelector ((state: Store) => state.year);
-    let sorting = useSelector ((state: Store) => state.sorting);
+    let title = useSelector ((state: Store) => state.title); //fetching title filter from redux store
+    let genre = useSelector ((state: Store) => state.genre); //fetching genre filter from redux store
+    let year = useSelector ((state: Store) => state.year); //fetching year filter from redux store
+    let sorting = useSelector ((state: Store) => state.sorting); //fetching sorting filter from redux store
     
     const { loading, error, data } = useQuery(SEARCH_FILMS, {
         variables: {
