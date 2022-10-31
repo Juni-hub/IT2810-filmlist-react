@@ -57,6 +57,7 @@ export default function Films() {
             <div className='container d-flex justify-content-center mt-3'>
                 <div className='spinner-border' role='status'>
                     <span className='sr-only'></span>
+                    <p>Loading...</p>
                 </div>
             </div>
         )
@@ -72,6 +73,7 @@ export default function Films() {
     }
     
     const onCreate = (values: any) => {
+        
         createPost({
             variables: {
                 title: values.title,
