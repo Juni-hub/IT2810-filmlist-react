@@ -48,13 +48,13 @@ backend/web
 ### Beskrivelse av bruk av teknologier
 #### MongoDB
 
-Gruppen har valgt å bruke en MongoDB database for å lagre data. MongoDB er en dokumentbasert database, noe som vil si at den lagrer data i et JSON-lignende format. For å kommunisere med databasen brukes biblioteket [mongoose](https://mongoosejs.com/docs/).
+Gruppen har valgt å bruke en MongoDB database for å lagre data. MongoDB er en dokumentbasert database, noe som vil si at den lagrer data i et JSON-lignende format. Grunnen til at vi valgte en NoSQL-database er fordi vi kun skal ha en type data i databasen, ikke flere typer med relasjoner til hverandre. MongoDB er den mest populære NoSQL-databasen i verden blant annet fordi den er gratis, horisontalt skalerbar og det finnes mye dokumentasjon om den. Vi brukte MongoDB Compass til å ha oversikt over og å legge inn startdata i databasen.
 
-Gruppen definerer et Schema kalt PostSchema for å definere hvilke felter som skal være med i et Post (film) objekt. Bruk av slike Schema hjelper med å strukturere data og gjør det enklere å jobbe med. Feltene som benyttes er _id, title, year, cast og genres. _id og title er påkrevde felter. 
+For å kommunisere med databasen brukes biblioteket [mongoose](https://mongoosejs.com/docs/). For å ha kontroll på hva slags type data vi har i databasen bruker vi et Schema som definerer strukturen på dokumentene i kolleksjonen vi henter fra. Gruppen definerer et Schema kalt PostSchema for å definere hvilke felter som skal være med i et Post (film) objekt. Feltene som benyttes er _id, title, year, cast og genres. _id og title er påkrevde felter. Et Schema gjør det enklere å samhandle med databasen, for eksempel hente ut dokumenter basert på filtre og validere at felter er riktig type. Samtidig kan det gi komplikasjoner dersom man vil endre på Schemaet ved en senere anledning. Vi har ikke tenkt til å endre på databasen og valgte derfor å bruke Schema likevel.
 
 #### Express JS, GraphQL, Apollo Server
 
-Gruppen bruker en Express-integrasjon av Apollo Server som sin GraphQL server. [GraphQL](https://graphql.org/) er et query språk som benyttes for å samhandle med databasen gjennom mongoose. Serveren sin hensikt er å eksponere endpointene som klienten kan kommunisere med.
+Gruppen bruker en Express-integrasjon av Apollo Server som sin GraphQL-server. [GraphQL](https://graphql.org/) er et query språk som benyttes for å samhandle med databasen gjennom mongoose. Med GraphQL har serveren kun et endepunkt og man kommuniserer med serveren ved å definere hva man ønsker å få i respons i querien. Vi valgte Apollo Server fordi den er enkel å sette opp og det finnes mye dokumentasjon på nettet. Man får også en nettside når serveren kjører der man kan teste ut ulike queries, noe som gjør debugging lettere. 
 
 Filen TypeDefs definerer de nødvendige typene, spørringene og mutasjonene som er nødvendige i GraphQL schemaet. Her definerer gruppen en type kalt Post, som definerer felter som skal være i hvert filmobjekt. Videre definerer vi en type kalt Query for å definere en funksjon for å hente ut ønsket data, samt en type kalt Mutation for å definere en funksjon for å lage ett nytt objekt.
 
@@ -94,7 +94,7 @@ Applikasjonen bruker React for å lage UI komponentene som brukeren ser på nett
 
 #### Apollo Client
 
-Apollo Client brukes i React applikasjonen for å koble til GraphQL APIet. I komponenten Films kjører vi spørringer og mutasjoner med Apollo Client for å hente og endre data fra serveren.
+Apollo Client brukes i React applikasjonen for å koble til GraphQL APIet. I komponenten Films kjører vi spørringer og mutasjoner med Apollo Client for å hente og endre data fra serveren. Vi valgte Apollo Client fordi den er designet for React og er anbefalt å bruke sammen med Apollo Server.
 
 #### Redux
 Redux er et Javascript-bibliotek brukt for Local State Management i applikasjonen. Redux er brukt til å lagre filtrene brukeren har lagt inn.
