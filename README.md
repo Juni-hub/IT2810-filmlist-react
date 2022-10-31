@@ -72,18 +72,19 @@ src
 │   │   FilmItem.tsx
 │   │   Films.tsx
 ├───helpers
-├───interfaces
 ├───queries
 │   │   filmQueries.ts
 ├───redux
+├───utils
+│   │   Interfaces.ts
 └───App.tsx
 ```
 
 - `components` inneholder komponentene som brukes i applikasjonen.
 - `helpers` inneholder hjelpefunksjoner.
 - `queries` inneholder funksjoner for graphql queries og mutations.
-- `interfaces` inneholder interfaces brukt i applikasjonen.
 - `redux` inneholder funktionalitet for å lagre og håndere data fra en Redux Store.
+- `utils` inneholder interfaces brukt i applikasjonen.
 - `App.stx` er root komponenten til applikasjonen.
 
 ### Beskrivelse av bruk av teknologier
