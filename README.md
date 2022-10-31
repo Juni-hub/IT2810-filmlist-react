@@ -75,6 +75,7 @@ src
 ├───queries
 │   │   filmQueries.ts
 ├───redux
+├───test
 ├───utils
 │   │   Interfaces.ts
 └───App.tsx
@@ -84,6 +85,7 @@ src
 - `helpers` inneholder hjelpefunksjoner.
 - `queries` inneholder funksjoner for graphql queries og mutations.
 - `redux` inneholder funktionalitet for å lagre og håndere data fra en Redux Store.
+- `test` inneholder alle enhetstester for å skjekke at applikasjonen fungerer som tiltenkt.
 - `utils` inneholder interfaces brukt i applikasjonen.
 - `App.stx` er root komponenten til applikasjonen.
 
@@ -98,6 +100,7 @@ Apollo Client brukes i React applikasjonen for å koble til GraphQL APIet. I kom
 
 #### Redux
 Redux er et Javascript-bibliotek brukt for Local State Management i applikasjonen. Redux er brukt til å lagre filtrene brukeren har lagt inn.
+
 #### Design komponenter (Antd, Bootstrap)
 
 Gruppen har brukt React UI bibliotekene Ant Design og Bootstrap for å designe nettsiden. Ant Design er et bibliotek som tilbyr pene og enkle React-komponenter. Vi har hovedsakelig brukt komponentene Card, Modal og Button, samt komponenter for de ulike inputfeltene.
@@ -106,6 +109,7 @@ Bootstrap brukes hovedsakelig til å style komponentene med inline css i classNa
 
 ### Testing
 Prosjektet er testet ved bruk av Cypress for ende-til-endetesting og Jest for komponenttesting. I tillegg har vi bruke CI pipeline i GitLab for å passe på at koden i main fungerer gjennom utviklingsprosessen.
+
 #### End-2-end testing
 For å teste med Cypress må man først starte serveren og applikasjonen (se punkt lenger oppe). Deretter skriver man følgende kommandoer i terminalen for å starte Cypress-testen.
 ```
@@ -142,6 +146,4 @@ Web Content Accessibility Guidelines (WCAG) er en standard for å sikre universe
 
 Nettsiden benytter pagination og laster kun inn deler av innholdet (15 elementer) til en hver tid. Brukeren kan selv velge om de ønsker å laste inn mer innhold når de har sett alle elementene. Dette gir generelt sett lavere datatrafikk ettersom brukeren mest sannsylig ikke trenger gå igjennom alle objektene.
 
-Komponentene på nettsiden er minimale, men hensiktsmessige for å formidle innholdet til brukeren. Gruppen bruker verken bilder, videoer eller GIFs da disse krever mye datatrafikk og energibruk på klient. 
-
-Videre er nettsiden laget med dark mode. Dette er på grunn av at mørkere farger krever mindre energi og er av resultat mer miljøvennlig enn bruken av lysere farger.
+Komponentene på nettsiden er minimale, men hensiktsmessige for å formidle innholdet til brukeren. Gruppen bruker verken bilder, videoer eller GIFs da disse krever mye datatrafikk og energibruk på klient. Videre er nettsiden laget med dark mode. Dette er på grunn av at mørkere farger krever mindre energi og er av resultat mer miljøvennlig enn bruken av lysere farger.
