@@ -57,8 +57,8 @@ export default function Films() {
             <div className='container d-flex justify-content-center mt-3'>
                 <div className='spinner-border' role='status'>
                     <span className='sr-only'></span>
-                    <p>Loading...</p>
                 </div>
+                <p>Loading...</p>
             </div>
         )
     }
@@ -160,8 +160,8 @@ export default function Films() {
                             <Option value="-1"><ArrowDownOutlined /> Descending</Option>
                         </Select>
                     </div>
-                    <div  className='px-2 pb-2'>
-                        <Button
+                    <div  aria-label='edit' className='px-2 pb-2'>
+                        <Button 
                             data-testid="reset"
                             type="primary"
                             onClick={useReset}
