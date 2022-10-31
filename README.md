@@ -1,6 +1,16 @@
 # Prosjekt 3
 
-Applikasjonen henter data fra en databasen og viser et utvalg filmer utgitt fra 1900 til i dag. Hver film er beskrevet med tittel, utgivelsesår, rollebesetning og sjanger. Det er mulig å finne en ønsket film ved å filtrere på en enkelt eller en kombinasjon av disse verdiene. Videre er det mulig å sortere dataene i stigende eller synkende rekkefølge etter utgivelsesår. Det er også mulig for brukeren å legge til sine egne filmer i databasen. Hver film kan trykkes på for å vise mer informasjon.
+## Beskrivelse av applikasjonen
+
+Applikasjonen henter data fra en databasen og viser et utvalg filmer utgitt fra 1900 til i dag. Hver film vises på nettsiden som et kort og er beskrevet med tittel, utgivelsesår, rollebesetning og sjanger. Det er mulig å finne en ønsket film ved å filtrere på en enkelt eller en kombinasjon av disse verdiene. Videre er det mulig å sortere dataene i stigende eller synkende rekkefølge etter utgivelsesår. Det er også mulig for brukeren å legge til sine egne filmer i databasen. Hver film kan trykkes på for å vise mer informasjon.
+
+### Krav til innhold
+- Applikasjonen tillater å søke etter en film basert på tittel.
+- Applikasjonen viser 15 filmer av gangen for å kunne håndere den store datamengden. Brukeren får opp flere filmer ved å bla videre nederst på siden.
+- Applikasjonen gir mer detaljer om en gitt film ved å trykke på et filmkort.
+- Applikasjonen tillater filtrering basert på sjanger og utgivelsesdato.
+- Applikasjonen tillater sortering basert på stigende eller synkende utgivelsesdato.
+- Applikasjonen gir brukeren mulighet til å legge til egne filmer.
 
 ## Kjøre prosjektet
 For å kjøre applikasjonen må prosjektet først klones fra gitlab. 
@@ -11,7 +21,7 @@ $ cd backend/web
 $ npm install
 $ npm run dev
 ```
-Følgende kommandoer i terminalen for å starte react applikasjonen.
+Følgende kommandoer i terminalen for å starte React applikasjonen.
 ```
 $ cd frontend/web
 $ npm install
@@ -20,18 +30,31 @@ $ npm start
 Etter å ha kjørt kommandoene vil applikasjonen kjøre på http://localhost:3000/.
 
 ## Backend
+### Backend fil struktur
+```
+backend/web
+├───models
+│   │   Post.model.js
+├───resolvers.js
+├───typeDefs.js
+└───index.ts
+```
 
-### Structure
-- **/backend/web**: Inneholder resolvers og typeDefs for å definere hvordan data skal håndteres fra databasen. </br>
-    - **/models**: Inneholder mongoose Schemaet Post.Model.js som definerer hvile felter som et filmobjekt består av i databasen. </br>
+- `models` inneholder database schemaet, PostSchema, brukt til å definere feltene til et filmobjekt.
+- `resolvers.js` inneholder funksjoner for graphql queries og mutations.
+- `typeDefs.js` inneholder graphql typer for å definere hvilke types, queries og mutations som skal være med i applikasjonen.
+- `index.js` starter serveren og kobler til databasen.
 
-### MongoDB
+### Beskrivelse av bruk av teknologier
+#### MongoDB
 
-Gruppen har valgt å bruke en MongoDB database for å lagre data. Gruppen definerer et Schema kalt PostSchema for å definere hvilke felter som skal være med i et Post (film) objekt. Feltene som benyttes er _id, title, year, cast og genres. _id og title er påkrevde felter. 
+Gruppen har valgt å bruke en MongoDB database for å lagre data. MongoDB er en dokumentbasert database, noe som vil si at den lagrer data i et JSON-lignende format. For å kommunisere med databasen brukes biblioteket [mongoose](https://mongoosejs.com/docs/).
 
-### Express JS, GraphQL, Apollo Server
+Gruppen definerer et Schema kalt PostSchema for å definere hvilke felter som skal være med i et Post (film) objekt. Bruk av slike Schema hjelper med å strukturere data og gjør det enklere å jobbe med. Feltene som benyttes er _id, title, year, cast og genres. _id og title er påkrevde felter. 
 
-Gruppen bruker en Express-integrasjon av Apollo Server som sin GraphQL server. GraphQL er query språket som benyttes for å samhandle med databasen. 
+#### Express JS, GraphQL, Apollo Server
+
+Gruppen bruker en Express-integrasjon av Apollo Server som sin GraphQL server. [GraphQL](https://graphql.org/) er et query språk som benyttes for å samhandle med databasen gjennom mongoose. Serveren sin hensikt er å eksponere endpointene som klienten kan kommunisere med.
 
 Filen TypeDefs definerer de nødvendige typene, spørringene og mutasjonene som er nødvendige i GraphQL schemaet. Her definerer gruppen en type kalt Post, som definerer felter som skal være i hvert filmobjekt. Videre definerer vi en type kalt Query for å definere en funksjon for å hente ut ønsket data, samt en type kalt Mutation for å definere en funksjon for å lage ett nytt objekt.
 
@@ -40,35 +63,51 @@ Selve funksjonene for å hente eller endre dataen i databasen er skrevet i filen
 Videre har gruppen skrevet en Mutation kalt createPost som legger til nye filobjekter i databasen. Filmobjektet må ha en tittel, men det er valgfritt om det har et årstall, rollebesetning eller sjanger.
 
 ## Frontend
+### Frontend fil struktur
+```
+cypress
+src
+├───components
+│   │   AddFilm.tsx
+│   │   FilmItem.tsx
+│   │   Films.tsx
+├───helpers
+├───interfaces
+├───queries
+│   │   filmQueries.ts
+├───redux
+└───App.tsx
+```
 
-### Structure
-- **/frontend/web**: 
-    - **/src**: 
-        - **/components**: Inneholder alle komponentene som brukes i applikasjonen
-        - **/helpers**: Inneholder hjelpefunksjoner som brukes i applikasjonen
-        - **/queries**: Inneholder alle queries som brukes for å hente data fra serveren.
-        - **/redux**: Inneholder filene actions og store som spesifiserer redux og funksjonene som kan brukes til å samhandle med redux.
-        - **/utils**: Inneholder Interfaces brukt i frontend
+- `components` inneholder komponentene som brukes i applikasjonen.
+- `helpers` inneholder hjelpefunksjoner.
+- `queries` inneholder funksjoner for graphql queries og mutations.
+- `interfaces` inneholder interfaces brukt i applikasjonen.
+- `redux` inneholder funktionalitet for å lagre og håndere data fra en Redux Store.
+- `App.stx` er root komponenten til applikasjonen.
 
-### React m/ Typescript
+### Beskrivelse av bruk av teknologier
+#### React m/ Typescript
 
 Applikasjonen bruker React for å lage UI komponentene som brukeren ser på nettsiden. React er implementert med Typescript, som er et programmeringsspråk bygget på JavaScript ved at det er lagt til statiske type definisjoner.
 
-### Apollo Client
+#### Apollo Client
 
 Apollo Client brukes i React applikasjonen for å koble til GraphQL APIet. I komponenten Films kjører vi spørringer og mutasjoner med Apollo Client for å hente og endre data fra serveren.
 
-### Redux
+#### Redux
 
-### Design komponenter (Antd, Bootstrap)
+#### Design komponenter (Antd, Bootstrap)
 
-Gruppen har brukt React UI bibliotekene Ant Design og Bootstrap. Ant Design er et bibliotek som tilbyr pene og enkle React-komponenter. Bootstrap brukes hovedsakelig til å style komponentene. Blant annet ved å definere padding og margin. 
+Gruppen har brukt React UI bibliotekene Ant Design og Bootstrap for å designe nettsiden. Ant Design er et bibliotek som tilbyr pene og enkle React-komponenter. Vi har hovedsakelig brukt komponentene Card, Modal og Button, samt komponenter for de ulike inputfeltene.
 
-## Testing
+Bootstrap brukes hovedsakelig til å style komponentene med inline css i className. Det brukes blant annet for å lettere definere padding og margin for hver komponent. 
 
-### End-2-end testing
+### Testing
 
-### Jest
+#### End-2-end testing
+
+#### Jest
 
 ## Diskusjon
 
