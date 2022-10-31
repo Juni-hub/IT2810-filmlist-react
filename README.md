@@ -97,7 +97,7 @@ Applikasjonen bruker React for å lage UI komponentene som brukeren ser på nett
 Apollo Client brukes i React applikasjonen for å koble til GraphQL APIet. I komponenten Films kjører vi spørringer og mutasjoner med Apollo Client for å hente og endre data fra serveren.
 
 #### Redux
-
+Redux er et Javascript-bibliotek brukt for Local State Management i applikasjonen. Redux er brukt til å lagre filtrene brukeren har lagt inn.
 #### Design komponenter (Antd, Bootstrap)
 
 Gruppen har brukt React UI bibliotekene Ant Design og Bootstrap for å designe nettsiden. Ant Design er et bibliotek som tilbyr pene og enkle React-komponenter. Vi har hovedsakelig brukt komponentene Card, Modal og Button, samt komponenter for de ulike inputfeltene.
@@ -105,9 +105,13 @@ Gruppen har brukt React UI bibliotekene Ant Design og Bootstrap for å designe n
 Bootstrap brukes hovedsakelig til å style komponentene med inline css i className. Det brukes blant annet for å lettere definere padding og margin for hver komponent. 
 
 ### Testing
-
+Prosjektet er testet ved bruk av Cypress for ende-til-endetesting og Jest for komponenttesting. 
 #### End-2-end testing
-
+For å teste med Cypress må man først starte serveren og applikasjonen (se punkt lenger oppe). Deretter skriver man følgende kommandoer i terminalen for å starte Cypress-testen.
+```
+$ cd frontend/web
+$ npx cypress run
+```
 #### Jest
 
 ## Diskusjon
