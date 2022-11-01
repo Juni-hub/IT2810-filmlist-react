@@ -1,5 +1,9 @@
 import { gql } from '@apollo/client'
 
+
+/** 
+* Query for searing for films
+*/
 export const SEARCH_FILMS = gql`
   query getPosts($limit: Int!, $offset: Int!, $titleFilter: String, $genreFilter: String, $yearFilter: Int, $sorting: Int) {
     getFilteredPosts(limit: $limit, offset: $offset, titleFilter: $titleFilter, genreFilter: $genreFilter, yearFilter: $yearFilter, sorting: $sorting) {
@@ -11,7 +15,9 @@ export const SEARCH_FILMS = gql`
     }
   },
 `;
-
+/** 
+* Query for adding a film
+*/
 export const ADD_FILM = gql`
   mutation createPost($title: String!, $year: Int, $cast: [String], $genres: [String]) {
     createPost(title: $title, year: $year, cast: $cast, genres: $genres) {
