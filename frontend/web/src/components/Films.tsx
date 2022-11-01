@@ -160,7 +160,7 @@ export default function Films() {
                             <Option value="-1"><ArrowDownOutlined /> Descending</Option>
                         </Select>
                     </div>
-                    <div className='px-2 pb-3'>
+                    <div data-testid = "divReset" className='px-2 pb-3'>
                         <Button 
                             type="primary"
                             onClick={useReset}
