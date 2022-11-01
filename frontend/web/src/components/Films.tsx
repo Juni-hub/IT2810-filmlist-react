@@ -113,6 +113,7 @@ export default function Films() {
         year = useSelector ((state: Store) => state.year);
         sorting = useSelector ((state: Store) => state.sorting);
     }
+    
 
     return (
         <>
@@ -121,7 +122,6 @@ export default function Films() {
                 <div className='d-flex flex-wrap' style={{justifyContent: "center"}}>
                     <div className='px-2 pb-3'>
                         <Search 
-                            data-testid = "searchField"
                             id='search'
                             value={title? title: undefined} 
                             placeholder="Search for title" 
@@ -130,7 +130,6 @@ export default function Films() {
                     </div>
                     <div className='px-2 pb-3'>
                         <Select 
-                            data-testid = "genre"
                             id='genre'
                             value={genre? genre: undefined} 
                             placeholder="Search for genre" 
@@ -141,7 +140,6 @@ export default function Films() {
                     </div>
                     <div className='px-2 pb-3'>
                         <DatePicker 
-                            data-testid = "year"
                             id='year'
                             disabledDate={disabledYear} 
                             value={(parseInt(year, 10) !== 0)? moment(year) : undefined} 
@@ -160,7 +158,7 @@ export default function Films() {
                             <Option value="-1"><ArrowDownOutlined /> Descending</Option>
                         </Select>
                     </div>
-                    <div data-testid = "divReset" className='px-2 pb-3'>
+                    <div className='px-2 pb-3'>
                         <Button 
                             type="primary"
                             onClick={useReset}
