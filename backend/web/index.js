@@ -34,8 +34,8 @@ async function startServer() {
 
   console.log("Mongoose connected...")
 
-  app.listen({ port: 4000 }, () => 
-    console.log(`Server is running at http://localhost:4000${apolloServer.graphqlPath}`)
+  app.listen({ port: 1880 }, () => 
+    console.log(`Server is running at http://localhost:1880${apolloServer.graphqlPath}`)
   );
 }
 

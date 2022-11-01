@@ -13,7 +13,7 @@ import store from "./redux/store";
 const { Paragraph } = Typography;
 
 const client = new ApolloClient({
-  uri: 'http://localhost:4000/graphql', 
+  uri: 'http://it2810-34.idi.ntnu.no:8080/graphql', 
   cache: new InMemoryCache({
     typePolicies: {
       Query: {
