@@ -2,8 +2,8 @@ import 'antd/dist/antd.css';
 import './App.css';
 
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { HashRouter, Route, Routes } from 'react-router-dom';
 import { PageHeader, Typography } from 'antd';
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 import Films from './components/Films';
 import { Provider } from "react-redux";
@@ -29,7 +29,7 @@ function App() {
   return (
     <ApolloProvider client={client}>
     <Provider store = {store}>
-        <Router>
+        <HashRouter>
           <PageHeader
             className="site-page-header m-4"
             title="The film database"
@@ -46,9 +46,9 @@ function App() {
             </>
           </PageHeader>
           <Routes>
-            <Route path="/project3" element={ <Films /> } />
+            <Route path="/" element={ <Films /> } />
           </Routes>
-        </Router>
+        </HashRouter>
         </Provider>
       </ApolloProvider>
   );
