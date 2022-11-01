@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 
-//define a schema for documents in the collection
+/** 
+* Defines a schema for documents in the collection
+*/
 const PostSchema = new mongoose.Schema({
     _id: { 
         type: String,

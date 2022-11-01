@@ -1,5 +1,4 @@
 import { Form, Input, Modal, Select } from "antd";
-
 import { CreateFormProps } from '../utils/Interface';
 import { optionList } from "../helpers/helpers";
 

@@ -46,11 +46,7 @@ function storeReducer(state: Store = {
     }
 }
 
-
-/**
- * Apply thunk middleware to store
- * 
- */
+//Apply thunk middleware to store
 const store = createStore(storeReducer,applyMiddleware(thunk));
 
 export default store;

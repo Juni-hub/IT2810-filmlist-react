@@ -1,6 +1,8 @@
 const { gql } = require("apollo-server-express");
 
-//define types for GraphQL queries
+/** 
+* Define types for GraphQL queries
+*/
 const typeDefs = gql`
   type Post {
      _id: ID
