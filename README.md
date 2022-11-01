@@ -2,32 +2,32 @@
 
 ## Beskrivelse av applikasjonen
 
-Applikasjonen henter data fra en databasen og viser et utvalg filmer utgitt fra 1900 til i dag. Hver film vises på nettsiden som et kort og er beskrevet med tittel, utgivelsesår, rollebesetning og sjanger. Det er mulig å finne en ønsket film ved å filtrere på en enkelt eller en kombinasjon av disse verdiene. Videre er det mulig å sortere dataene i stigende eller synkende rekkefølge etter utgivelsesår. Det er også mulig for brukeren å legge til sine egne filmer i databasen. Hver film kan trykkes på for å vise mer informasjon.
+Applikasjonen henter data fra en database og viser et utvalg filmer utgitt fra 1900 til i dag. Hver film vises på nettsiden som et kort og er beskrevet med tittel og utgivelsesår. Hver film kan trykkes på for å vise mer informasjon om rollebesetning og sjanger. Det er mulig å finne en ønsket film ved å filtrere på en enkelt eller en kombinasjon av disse verdiene. Videre er det mulig å sortere dataene i stigende eller synkende rekkefølge etter utgivelsesår. Det er også mulig for brukeren å legge til sine egne filmer i databasen.
 
-### Krav til innhold
+### Krav til innhold og utførelse i applikasjonen
 - Applikasjonen tillater å søke etter en film basert på tittel.
-- Applikasjonen viser 15 filmer av gangen for å kunne håndere den store datamengden. Brukeren får opp flere filmer ved å bla videre nederst på siden.
-- Applikasjonen gir mer detaljer om en gitt film ved å trykke på et filmkort.
 - Applikasjonen tillater filtrering basert på sjanger og utgivelsesdato.
 - Applikasjonen tillater sortering basert på stigende eller synkende utgivelsesdato.
+- Applikasjonen viser 15 filmer av gangen for å kunne håndere den store datamengden. Brukeren kan få opp flere filmer ved å bla til videre sider nederst på siden.
+- Applikasjonen gir mer detaljer om en gitt film ved å trykke på et filmkort.
 - Applikasjonen gir brukeren mulighet til å legge til egne filmer.
 
 ## Kjøre prosjektet
 For å kjøre applikasjonen må prosjektet først klones fra gitlab. 
 
-Følgende kommandoer i terminalen for å starte serveren.
+Følgende kommandoer kan kjøres i terminalen for å starte serveren.
 ```
 $ cd backend/web
 $ npm install
 $ npm run dev
 ```
-Følgende kommandoer i terminalen for å starte React applikasjonen.
+Følgende kommandoer kan kjøres i terminalen for å starte React applikasjonen.
 ```
 $ cd frontend/web
 $ npm install
 $ npm start
 ```
-Etter å ha kjørt kommandoene vil applikasjonen kjøre på http://localhost:3000/.
+Etter å ha kjørt kommandoene vil React applikasjonen kjøre på http://localhost:3000/. Det er mulig å samhandle direkte med serveren på http://localhost:4000/graphql.
 
 ## Backend
 ### Backend fil struktur
@@ -122,9 +122,7 @@ $ npx cypress run
 
 ### Universell utforming
 
-Universell utforming handler om at applikasjoner skal lages på en måte som gjør de tilgjengelige for alle, uavhengig av faktorer som alder, funksjonsevne eller utdanningsnivå. 
-
-Web Content Accessibility Guidelines (WCAG) er en standard for å sikre universell utforming på nettsider. Retningslinjene er bygget opp av fire prinsipper. Under listes prinsippene og tiltakene gruppen har gjort for å sikre at de følges.  
+Universell utforming handler om at applikasjoner skal lages på en måte som gjør de tilgjengelige for alle, uavhengig av faktorer som alder, funksjonsevne eller utdanningsnivå. Web Content Accessibility Guidelines (WCAG) er en standard for å sikre universell utforming på nettsider. Retningslinjene er bygget opp av fire prinsipper. Under listes prinsippene og tiltakene gruppen har gjort for å sikre at de følges.  
 
 1. Mulig å oppfatte: Innhold presenteres for brukerene på måter de kan oppfatte.
 - Alt innhold og deres funksjonalitet er beskrevet og presentert for brukeren
