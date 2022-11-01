@@ -1,6 +1,13 @@
 import { Modal } from "antd";
 import { CreateModalProps } from "../utils/Interface";
 
+/** 
+* Const for showing a model with more information on a filmitem
+* @param film chosen filmitem
+* @param open boolean to decide if modal should be open or closed
+* @param onCancel function to be sent in onCancel
+* @return a modal to show information about a filmitem 
+*/
 export const ShowFilmItem: React.FC<CreateModalProps> = ({
   film,
   open,
