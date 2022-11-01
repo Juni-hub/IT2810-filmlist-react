@@ -3,6 +3,13 @@ import { Form, Input, Modal, Select } from "antd";
 import { CreateFormProps } from '../utils/Interface';
 import { optionList } from "../helpers/helpers";
 
+/** 
+* Const for creating a form 
+* @param open function for when the modal opens
+* @param onCreate function to be usen when creating an filmitem
+* @param onCancel function to be sent in onCancel
+* @return modal for creating a filmitem
+*/
 export const CreateForm: React.FC<CreateFormProps> = ({
   open,
   onCreate,

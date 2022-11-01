@@ -17,6 +17,9 @@ import { useState } from 'react';
 const { Option } = Select;
 const PAGE_SIZE = 15;
 
+/** 
+* Main component to show filmitems on React application
+*/
 export default function Films() {
     const [page, setPage] = useState(0);
     const [openCreate, setOpenCreate] = useState(false);
@@ -41,6 +44,11 @@ export default function Films() {
     let year = useSelector ((state: Store) => state.year); //fetching year filter from redux store
     let sorting = useSelector ((state: Store) => state.sorting); //fetching sorting filter from redux store
     
+    /** 
+    * Retrieves data from graphql server
+    * @param variables to be considered when retreiving data
+    * @return data from graphql server 
+    */
     const { loading, error, data } = useQuery(SEARCH_FILMS, {
         variables: {
             limit: PAGE_SIZE,
@@ -58,7 +66,7 @@ export default function Films() {
                 <div className='spinner-border' role='status'>
                     <span className='sr-only'></span>
                 </div>
-                <p>Loading...</p>
+                <p className='px-4'>Loading...</p>
             </div>
         )
     }
@@ -71,18 +79,21 @@ export default function Films() {
             </div>
         )
     }
-    
-    const onCreate = (values: any) => {
-        
+
+    /** 
+    * Creates a filmitem in the database
+    * @param film to be created
+    */
+    const onCreate = (film: any) => { 
         createPost({
             variables: {
-                title: values.title,
-                year: values.year? parseInt(values.year, 10) : null,
-                cast: values.cast? values.cast.split(",") : [],
-                genres: values.genres? [values.genres]: [],
+                title: film.title,
+                year: film.year? parseInt(film.year, 10) : null,
+                cast: film.cast? film.cast.split(",") : [],
+                genres: film.genres? [film.genres]: [],
             }
         });
-        dispatch(setTitle(values.title))
+        dispatch(setTitle(film.title))
         setOpenCreate(false);
     };
 
@@ -102,6 +113,9 @@ export default function Films() {
         ))
     )
 
+    /** 
+    * Resets the filters in the state management system
+    */
     function useReset() {
         dispatch(setTitle(""))
         dispatch(setGenre(""))
@@ -114,7 +128,6 @@ export default function Films() {
         sorting = useSelector ((state: Store) => state.sorting);
     }
     
-
     return (
         <>
         {!loading && !error && 
