@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Jest Snapshot testing suite Matches DOM Snapshot 1`] = `
+<div
+  className="container d-flex justify-content-center mt-3"
+>
+  <div
+    className="spinner-border"
+    role="status"
+  >
+    <span
+      className="sr-only"
+    />
+  </div>
+  <p>
+    Loading...
+  </p>
+</div>
+`;

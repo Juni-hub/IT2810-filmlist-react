@@ -58,6 +58,7 @@ export default function Films() {
                 <div className='spinner-border' role='status'>
                     <span className='sr-only'></span>
                 </div>
+                <p>Loading...</p>
             </div>
         )
     }
@@ -72,6 +73,7 @@ export default function Films() {
     }
     
     const onCreate = (values: any) => {
+        
         createPost({
             variables: {
                 title: values.title,
@@ -111,6 +113,7 @@ export default function Films() {
         year = useSelector ((state: Store) => state.year);
         sorting = useSelector ((state: Store) => state.sorting);
     }
+    
 
     return (
         <>
@@ -156,7 +159,7 @@ export default function Films() {
                         </Select>
                     </div>
                     <div className='px-2 pb-3'>
-                        <Button
+                        <Button 
                             type="primary"
                             onClick={useReset}
                         >

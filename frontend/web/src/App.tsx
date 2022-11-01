@@ -25,8 +25,8 @@ const client = new ApolloClient({
 
 function App() {
   return (
+    <ApolloProvider client={client}>
     <Provider store = {store}>
-      <ApolloProvider client={client}>
         <Router>
           <PageHeader
             className="site-page-header m-4"
@@ -47,8 +47,8 @@ function App() {
             <Route path="/" element={ <Films /> } />
           </Routes>
         </Router>
+        </Provider>
       </ApolloProvider>
-    </Provider>
   );
 }
 
