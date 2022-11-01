@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client'
 
-
 /** 
 * Query for searing for films
 */
@@ -15,8 +14,9 @@ export const SEARCH_FILMS = gql`
     }
   },
 `;
+
 /** 
-* Query for adding a film
+* Mutation for adding a film to the database
 */
 export const ADD_FILM = gql`
   mutation createPost($title: String!, $year: Int, $cast: [String], $genres: [String]) {
@@ -28,4 +28,4 @@ export const ADD_FILM = gql`
       genres
     }
   }
-`
+`;

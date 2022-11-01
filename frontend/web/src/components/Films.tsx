@@ -5,7 +5,6 @@ import { disabledYear, optionList } from '../helpers/helpers';
 import { setGenre, setSorting, setTitle, setYear } from '../redux/actions';
 import { useDispatch, useSelector } from "react-redux";
 import { useMutation, useQuery } from '@apollo/client'
-
 import { CreateForm } from './AddFilm';
 import { Film } from '../utils/Interface';
 import Search from 'antd/lib/input/Search';
@@ -18,7 +17,7 @@ const { Option } = Select;
 const PAGE_SIZE = 15;
 
 /** 
-* Main component to show filmitems on React application
+* Main component to show list of filmitems on React application
 */
 export default function Films() {
     const [page, setPage] = useState(0);
@@ -45,7 +44,7 @@ export default function Films() {
     let sorting = useSelector ((state: Store) => state.sorting); //fetching sorting filter from redux store
     
     /** 
-    * Retrieves data from graphql server
+    * Retrieves data, loading and error from graphql server
     * @param variables to be considered when retreiving data
     * @return data from graphql server 
     */
@@ -114,7 +113,7 @@ export default function Films() {
     )
 
     /** 
-    * Resets the filters in the state management system
+    * Resets the filters in redux
     */
     function useReset() {
         dispatch(setTitle(""))

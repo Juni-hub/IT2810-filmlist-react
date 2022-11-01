@@ -12,7 +12,6 @@ export interface Values {
     modifier: string;
 }
   
-
 export interface CreateFormProps {
     open: boolean;
     onCreate: (values: Values) => void;

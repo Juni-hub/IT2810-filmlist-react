@@ -1,11 +1,11 @@
 import 'antd/dist/antd.css';
 import './App.css';
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { PageHeader, Typography  } from 'antd';
-import { ApolloClient, ApolloProvider, InMemoryCache, } from '@apollo/client';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import Films from './components/Films';
 import { Provider } from "react-redux";
-import {relayStylePagination} from "@apollo/client/utilities";
+import { relayStylePagination } from "@apollo/client/utilities";
 import store from "./redux/store";
 
 const { Paragraph } = Typography;

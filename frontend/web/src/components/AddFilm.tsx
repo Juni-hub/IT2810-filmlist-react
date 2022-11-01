@@ -4,9 +4,9 @@ import { optionList } from "../helpers/helpers";
 
 /** 
 * Const for creating a form 
-* @param open function for when the modal opens
-* @param onCreate function to be usen when creating an filmitem
-* @param onCancel function to be sent in onCancel
+* @param open boolean to decide if modal should be open or closed
+* @param onCreate function to create filmitem
+* @param onCancel function to close the modal
 * @return modal for creating a filmitem
 */
 export const CreateForm: React.FC<CreateFormProps> = ({

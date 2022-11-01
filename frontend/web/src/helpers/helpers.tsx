@@ -4,7 +4,7 @@ const { Option } = Select;
 const optionItems = ["Drama", "Documentary", "Sports", "Silent", "Adventure", "Western", "Romance", "War", "Comedy", "Horror", "Historical", "Animated"]
 
 /** 
-* Helper methods for setting genres and year
+* Helper methods for setting values for genres and year
 */
 export const optionList: React.ReactNode[] = [];
 
