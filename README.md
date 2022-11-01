@@ -117,6 +117,11 @@ $ cd frontend/web
 $ npx cypress run
 ```
 #### Jest
+Jest er et test rammeverk for Javascript og Typescript og kan lett integreres med React. I prosjektet vårt har vi skrevet tester for å sjekke at siden oppfører seg som den skal. I tillegg til dette er det laget en snapshottest. Snapshottest sikrer at brukergrensesnittet ikke endrer seg uventet. Når denne testen kjøres, blir det laget en snapshot fil. Hvis det allerede eksisterer en snapshot fil tilhørende en test, vil denne overskrives. Man kan finne alle snapshot filene i mappen `__snapshots__`. For å teste med Jest må man skrive følgende kommandoer:
+```
+$ cd frontend/web
+$ npm test
+```
 
 ## Diskusjon
 
