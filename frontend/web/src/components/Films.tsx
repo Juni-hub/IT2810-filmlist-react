@@ -3,10 +3,10 @@ import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
 import { Button, Card, Col, DatePicker, Row, Select } from 'antd';
 import { disabledYear, optionList } from '../helpers/helpers';
 import { setGenre, setSorting, setTitle, setYear } from '../redux/actions';
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useMutation, useQuery } from '@apollo/client'
 
-import { CollectionCreateForm } from './AddFilm';
+import { CreateForm } from './AddFilm';
 import { Film } from '../utils/Interface';
 import Search from 'antd/lib/input/Search';
 import { ShowFilmItem } from './FilmItem';
@@ -173,7 +173,7 @@ export default function Films() {
                         >
                             Add New Film
                         </Button>
-                        <CollectionCreateForm
+                        <CreateForm
                             open={openCreate}
                             onCreate={onCreate}
                             onCancel={() => {

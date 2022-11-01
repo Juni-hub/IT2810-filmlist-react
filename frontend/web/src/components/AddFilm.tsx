@@ -1,9 +1,9 @@
 import { Form, Input, Modal, Select } from "antd";
 
-import { CollectionCreateFormProps } from '../utils/Interface';
+import { CreateFormProps } from '../utils/Interface';
 import { optionList } from "../helpers/helpers";
 
-export const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
+export const CreateForm: React.FC<CreateFormProps> = ({
   open,
   onCreate,
   onCancel,

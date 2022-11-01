@@ -12,13 +12,14 @@ export interface Values {
     modifier: string;
 }
   
-export interface CollectionCreateFormProps {
+
+export interface CreateFormProps {
     open: boolean;
     onCreate: (values: Values) => void;
     onCancel: () => void;
 }
 
-export interface CollectionCreateFilmProps {
+export interface CreateModalProps {
     film: Film;
     open: boolean;
     onCancel: () => void;

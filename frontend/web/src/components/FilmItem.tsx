@@ -1,7 +1,7 @@
 import { Modal } from "antd";
-import { CollectionCreateFilmProps } from "../utils/Interface";
+import { CreateModalProps } from "../utils/Interface";
 
-export const ShowFilmItem: React.FC<CollectionCreateFilmProps> = ({
+export const ShowFilmItem: React.FC<CreateModalProps> = ({
   film,
   open,
   onCancel,
