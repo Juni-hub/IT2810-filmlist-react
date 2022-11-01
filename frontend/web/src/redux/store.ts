@@ -10,7 +10,10 @@ export interface Store {
     sorting: string;
 }
 
-// Redux implementation
+/**
+ * Function for redux implementation
+ * @param state
+ */
 function storeReducer(state: Store = {
     title: "",
     genre: "",
@@ -43,6 +46,7 @@ function storeReducer(state: Store = {
     }
 }
 
+//Apply thunk middleware to store
 const store = createStore(storeReducer,applyMiddleware(thunk));
 
 export default store;

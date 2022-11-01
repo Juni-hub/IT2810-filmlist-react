@@ -1,10 +1,13 @@
 const express = require("express")
-const { ApolloServer, gql } = require("apollo-server-express");
+const { ApolloServer } = require("apollo-server-express");
 const typeDefs = require("./typeDefs");
 const resolvers = require("./resolvers");
 const mongoose = require("mongoose");
 const cors = require('cors');
 
+/** 
+* Function for starting apolloserver
+*/
 async function startServer() {
   const app = express()
   const apolloServer = new ApolloServer({ 
@@ -14,6 +17,7 @@ async function startServer() {
 
   await apolloServer.start();
 
+  //apply express as middleware
   apolloServer.applyMiddleware({ app: app });
 
   app.use((req, res) => {
@@ -22,6 +26,7 @@ async function startServer() {
 
   app.use(cors());
   
+  //connect to mongodb-database
   await mongoose.connect("mongodb://admin:password@it2810-34.idi.ntnu.no:27017/admin?directConnection=true", {
     useUnifiedTopology: true,
     useNewUrlParser: true,

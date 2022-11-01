@@ -3,10 +3,9 @@ import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
 import { Button, Card, Col, DatePicker, Row, Select } from 'antd';
 import { disabledYear, optionList } from '../helpers/helpers';
 import { setGenre, setSorting, setTitle, setYear } from '../redux/actions';
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useMutation, useQuery } from '@apollo/client'
-
-import { CollectionCreateForm } from './AddFilm';
+import { CreateForm } from './AddFilm';
 import { Film } from '../utils/Interface';
 import Search from 'antd/lib/input/Search';
 import { ShowFilmItem } from './FilmItem';
@@ -17,6 +16,9 @@ import { useState } from 'react';
 const { Option } = Select;
 const PAGE_SIZE = 15;
 
+/** 
+* Main component to show list of filmitems on React application
+*/
 export default function Films() {
     const [page, setPage] = useState(0);
     const [openCreate, setOpenCreate] = useState(false);
@@ -36,11 +38,16 @@ export default function Films() {
     const dispatch = useDispatch();
     const [createPost] = useMutation(ADD_FILM);
 
-    let title = useSelector ((state: Store) => state.title);
-    let genre = useSelector ((state: Store) => state.genre);
-    let year = useSelector ((state: Store) => state.year);
-    let sorting = useSelector ((state: Store) => state.sorting);
+    let title = useSelector ((state: Store) => state.title); //fetching title filter from redux store
+    let genre = useSelector ((state: Store) => state.genre); //fetching genre filter from redux store
+    let year = useSelector ((state: Store) => state.year); //fetching year filter from redux store
+    let sorting = useSelector ((state: Store) => state.sorting); //fetching sorting filter from redux store
     
+    /** 
+    * Retrieves data, loading and error from graphql server
+    * @param variables to be considered when retreiving data
+    * @return data from graphql server 
+    */
     const { loading, error, data } = useQuery(SEARCH_FILMS, {
         variables: {
             limit: PAGE_SIZE,
@@ -58,7 +65,7 @@ export default function Films() {
                 <div className='spinner-border' role='status'>
                     <span className='sr-only'></span>
                 </div>
-                <p>Loading...</p>
+                <p className='px-4'>Loading...</p>
             </div>
         )
     }
@@ -71,18 +78,21 @@ export default function Films() {
             </div>
         )
     }
-    
-    const onCreate = (values: any) => {
-        
+
+    /** 
+    * Creates a filmitem in the database
+    * @param film to be created
+    */
+    const onCreate = (film: any) => { 
         createPost({
             variables: {
-                title: values.title,
-                year: values.year? parseInt(values.year, 10) : null,
-                cast: values.cast? values.cast.split(",") : [],
-                genres: values.genres? [values.genres]: [],
+                title: film.title,
+                year: film.year? parseInt(film.year, 10) : null,
+                cast: film.cast? film.cast.split(",") : [],
+                genres: film.genres? [film.genres]: [],
             }
         });
-        dispatch(setTitle(values.title))
+        dispatch(setTitle(film.title))
         setOpenCreate(false);
     };
 
@@ -102,6 +112,9 @@ export default function Films() {
         ))
     )
 
+    /** 
+    * Resets the filters in redux
+    */
     function useReset() {
         dispatch(setTitle(""))
         dispatch(setGenre(""))
@@ -114,7 +127,6 @@ export default function Films() {
         sorting = useSelector ((state: Store) => state.sorting);
     }
     
-
     return (
         <>
         {!loading && !error && 
@@ -176,7 +188,7 @@ export default function Films() {
                         >
                             Add New Film
                         </Button>
-                        <CollectionCreateForm
+                        <CreateForm
                             open={openCreate}
                             onCreate={onCreate}
                             onCancel={() => {

@@ -1,92 +1,152 @@
 # Prosjekt 3
 
+## Beskrivelse av applikasjonen
 
+Applikasjonen henter data fra en database og viser et utvalg filmer utgitt fra 1900 til i dag. Hver film vises på nettsiden som et kort og er beskrevet med tittel og utgivelsesår. Hver film kan trykkes på for å vise mer informasjon om rollebesetning og sjanger. Det er mulig å finne en ønsket film ved å filtrere på en enkelt eller en kombinasjon av disse verdiene. Videre er det mulig å sortere dataene i stigende eller synkende rekkefølge etter utgivelsesår. Det er også mulig for brukeren å legge til sine egne filmer i databasen.
 
-## Getting started
+### Krav til innhold og utførelse i applikasjonen
+- Applikasjonen tillater å søke etter en film basert på tittel.
+- Applikasjonen tillater filtrering basert på sjanger og utgivelsesdato.
+- Applikasjonen tillater sortering basert på stigende eller synkende utgivelsesdato.
+- Applikasjonen viser 15 filmer av gangen for å kunne håndere den store datamengden. Brukeren kan få opp flere filmer ved å bla til videre sider nederst på siden.
+- Applikasjonen gir mer detaljer om en gitt film ved å trykke på et filmkort.
+- Applikasjonen gir brukeren mulighet til å legge til egne filmer.
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## Kjøre prosjektet
+For å kjøre applikasjonen må prosjektet først klones fra gitlab. 
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
+Følgende kommandoer kan kjøres i terminalen for å starte serveren.
 ```
-cd existing_repo
-git remote add origin https://gitlab.stud.idi.ntnu.no/it2810-h22/Team-34/prosjekt-3.git
-git branch -M main
-git push -uf origin main
+$ cd backend/web
+$ npm install
+$ npm run dev
+```
+Følgende kommandoer kan kjøres i terminalen for å starte React applikasjonen.
+```
+$ cd frontend/web
+$ npm install
+$ npm start
+```
+Etter å ha kjørt kommandoene vil React applikasjonen kjøre på http://localhost:3000/. Det er mulig å samhandle direkte med serveren på http://localhost:4000/graphql.
+
+## Backend
+### Backend fil struktur
+```
+backend/web
+├───models
+│   │   Post.model.js
+├───resolvers.js
+├───typeDefs.js
+└───index.ts
 ```
 
-## Integrate with your tools
+- `models` inneholder database schemaet, PostSchema, brukt til å definere feltene til et filmobjekt.
+- `resolvers.js` inneholder funksjoner for graphql queries og mutations.
+- `typeDefs.js` inneholder graphql typer for å definere hvilke types, queries og mutations som skal være med i applikasjonen.
+- `index.js` starter serveren og kobler til databasen.
 
-- [ ] [Set up project integrations](https://gitlab.stud.idi.ntnu.no/it2810-h22/Team-34/prosjekt-3/-/settings/integrations)
+### Beskrivelse av bruk av teknologier
+#### MongoDB
 
-## Collaborate with your team
+Gruppen har valgt å bruke en MongoDB database for å lagre data. MongoDB er en dokumentbasert database, noe som vil si at den lagrer data i et JSON-lignende format. Grunnen til at vi valgte en NoSQL-database er fordi vi kun skal ha en type data i databasen, ikke flere typer med relasjoner til hverandre. MongoDB er den mest populære NoSQL-databasen i verden blant annet fordi den er gratis, horisontalt skalerbar og det finnes mye dokumentasjon om den. Vi brukte MongoDB Compass til å ha oversikt over og å legge inn startdata i databasen.
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+For å kommunisere med databasen brukes biblioteket [mongoose](https://mongoosejs.com/docs/). For å ha kontroll på hva slags type data vi har i databasen bruker vi et Schema som definerer strukturen på dokumentene i kolleksjonen vi henter fra. Gruppen definerer et Schema kalt PostSchema for å definere hvilke felter som skal være med i et Post (film) objekt. Feltene som benyttes er _id, title, year, cast og genres. _id og title er påkrevde felter. Et Schema gjør det enklere å samhandle med databasen, for eksempel hente ut dokumenter basert på filtre og validere at felter er riktig type. Samtidig kan det gi komplikasjoner dersom man vil endre på Schemaet ved en senere anledning. Vi har ikke tenkt til å endre på databasen og valgte derfor å bruke Schema likevel.
 
-## Test and Deploy
+#### Express JS, GraphQL, Apollo Server
 
-Use the built-in continuous integration in GitLab.
+Gruppen bruker en Express-integrasjon av Apollo Server som sin GraphQL-server. [GraphQL](https://graphql.org/) er et query språk som benyttes for å samhandle med databasen gjennom mongoose. Med GraphQL har serveren kun et endepunkt og man kommuniserer med serveren ved å definere hva man ønsker å få i respons i querien. Vi valgte Apollo Server fordi den er enkel å sette opp og det finnes mye dokumentasjon på nettet. Man får også en nettside når serveren kjører der man kan teste ut ulike queries, noe som gjør debugging lettere. 
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+Filen TypeDefs definerer de nødvendige typene, spørringene og mutasjonene som er nødvendige i GraphQL schemaet. Her definerer gruppen en type kalt Post, som definerer felter som skal være i hvert filmobjekt. Videre definerer vi en type kalt Query for å definere en funksjon for å hente ut ønsket data, samt en type kalt Mutation for å definere en funksjon for å lage ett nytt objekt.
 
-***
+Selve funksjonene for å hente eller endre dataen i databasen er skrevet i filen resolvers. Her er det laget en Query kalt getFilteredPosts, som brukes til å hente ut filtrert/ufiltreret data fra databasen. Denne funksjonen returnerer data avhengig av hvilke filter som tilføres. Det er mulig å filtrere på tittel, sjanger, rollebesetning og år, eventuelt en blanding av alle nevnte filter. Det er også mulig å sortere dataen basert på stigende eller synkende utgivelsesår.
 
-# Editing this README
+Videre har gruppen skrevet en Mutation kalt createPost som legger til nye filobjekter i databasen. Filmobjektet må ha en tittel, men det er valgfritt om det har et årstall, rollebesetning eller sjanger.
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+## Frontend
+### Frontend fil struktur
+```
+cypress
+src
+├───components
+│   │   AddFilm.tsx
+│   │   FilmItem.tsx
+│   │   Films.tsx
+├───helpers
+├───queries
+│   │   filmQueries.ts
+├───redux
+├───test
+├───utils
+│   │   Interfaces.ts
+└───App.tsx
+```
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+- `components` inneholder komponentene som brukes i applikasjonen.
+- `helpers` inneholder hjelpefunksjoner.
+- `queries` inneholder funksjoner for graphql queries og mutations.
+- `redux` inneholder funktionalitet for å lagre og håndere data fra en Redux Store.
+- `test` inneholder alle enhetstester for å skjekke at applikasjonen fungerer som tiltenkt.
+- `utils` inneholder interfaces brukt i applikasjonen.
+- `App.stx` er root komponenten til applikasjonen.
 
-## Name
-Choose a self-explaining name for your project.
+### Beskrivelse av bruk av teknologier
+#### React m/ Typescript
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+Applikasjonen bruker React for å lage UI komponentene som brukeren ser på nettsiden. React er implementert med Typescript, som er et programmeringsspråk bygget på JavaScript ved at det er lagt til statiske type definisjoner.
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+#### Apollo Client
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+Apollo Client brukes i React applikasjonen for å koble til GraphQL APIet. I komponenten Films kjører vi spørringer og mutasjoner med Apollo Client for å hente og endre data fra serveren. Vi valgte Apollo Client fordi den er designet for React og er anbefalt å bruke sammen med Apollo Server.
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+#### Redux
+Redux er et Javascript-bibliotek brukt for Local State Management i applikasjonen. Redux er brukt til å lagre filtrene brukeren har lagt inn.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+#### Design komponenter (Antd, Bootstrap)
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+Gruppen har brukt React UI bibliotekene Ant Design og Bootstrap for å designe nettsiden. Ant Design er et bibliotek som tilbyr pene og enkle React-komponenter. Vi har hovedsakelig brukt komponentene Card, Modal og Button, samt komponenter for de ulike inputfeltene.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+Bootstrap brukes hovedsakelig til å style komponentene med inline css i className. Det brukes blant annet for å lettere definere padding og margin for hver komponent. 
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+### Testing
+Prosjektet er testet ved bruk av Cypress for ende-til-endetesting og Jest for komponenttesting. I tillegg har vi bruke CI pipeline i GitLab for å passe på at koden i main fungerer gjennom utviklingsprosessen.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+#### End-2-end testing
+For å teste med Cypress må man først starte serveren og applikasjonen (se punkt lenger oppe). Deretter skriver man følgende kommandoer i terminalen for å starte Cypress-testen.
+```
+$ cd frontend/web
+$ npx cypress run
+```
+#### Jest
+Jest er et test rammeverk for Javascript og Typescript og kan lett integreres med React.  Vi bruker Jest med Babel, og siden vi skriver i Typescript sørget vi for at Babel ble konfigurert til å funke med Typescript. I prosjektet vårt har vi skrevet tester for å sjekke at nettsiden oppfører seg som den skal. I tillegg til dette er det laget en snapshottest. Snapshottest sikrer at brukergrensesnittet ikke endrer seg uventet. Når denne testen kjøres, blir det laget en snapshot fil. Hvis det allerede eksisterer en snapshot fil tilhørende en test, vil denne overskrives. Man kan finne alle snapshot filene i mappen `__snapshots__`. For å teste med Jest må man skrive følgende kommandoer:
+```
+$ cd frontend/web
+$ npm test
+```
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+## Diskusjon
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+### Universell utforming
 
-## License
-For open source projects, say how it is licensed.
+Universell utforming handler om at applikasjoner skal lages på en måte som gjør de tilgjengelige for alle, uavhengig av faktorer som alder, funksjonsevne eller utdanningsnivå. Web Content Accessibility Guidelines (WCAG) er en standard for å sikre universell utforming på nettsider. Retningslinjene er bygget opp av fire prinsipper. Under listes prinsippene og tiltakene gruppen har gjort for å sikre at de følges.  
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+1. Mulig å oppfatte: Innhold presenteres for brukerene på måter de kan oppfatte.
+- Alt innhold og deres funksjonalitet er beskrevet og presentert for brukeren
+- Layouten til nettsiden er tilpasset alle skjermer uten at informasjon eller struktur går tapt
+- Farge og fargekontraster er brukt på en måte som gjør innholdet synlig og tilgjengelig for alle brukere.
+
+2. Mulig å betjene: Innholdet skal være mulig å betjene uavhengig av hvordan brukeren navigerer.
+- Alt innhold er tilgjengelig uavhengig av utstyr som brukeren har (tastatur, mus, etc.)
+
+3. Forståelig: Innholdet på er forståelig
+- Gjennomtenkt bruk av font, tekststørrelse og farger
+- Lettlest og forståelig språkbruk
+- Forklarende tekster til innhold
+
+4. Robust: Innhold fungerer uavhengig av hjelpemidler du bruker 
+- Innholdet er kompatibel med og testet på ulike nettlesere (Safari, Chroome, Firefox). Det brukes ikke komponenter som ikke støttes av alle nettlesere.
+
+### Bærekraftig utvikling
+
+Nettsiden benytter pagination og laster kun inn deler av innholdet (15 elementer) til en hver tid. Brukeren kan selv velge om de ønsker å laste inn mer innhold når de har sett alle elementene. Dette gir generelt sett lavere datatrafikk ettersom brukeren mest sannsylig ikke trenger gå igjennom alle objektene.
+
+Komponentene på nettsiden er minimale, men hensiktsmessige for å formidle innholdet til brukeren. Gruppen bruker verken bilder, videoer eller GIFs da disse krever mye datatrafikk og energibruk på klient. Videre er nettsiden laget med dark mode. Dette er på grunn av at mørkere farger krever mindre energi og er av resultat mer miljøvennlig enn bruken av lysere farger.

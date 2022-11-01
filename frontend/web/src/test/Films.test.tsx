@@ -118,7 +118,6 @@ it("should render films", async () => {
  
 });
 
-
 /** 
 * Snapshot test for loading page
 */
