@@ -1,4 +1,4 @@
-# Prosjekt 3
+# Filmliste i React
 
 ## Beskrivelse av applikasjonen
 
